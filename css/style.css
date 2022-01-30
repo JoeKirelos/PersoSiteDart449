@@ -1,11 +1,15 @@
 
 body {
   background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #585858;
 }
 
-.nav-bar{
+.navBar{
   list-style-type: none;
-  margin: 0;
+  margin-top: 0.5%;
   padding: 0;
   overflow: hidden;
   display: flex;
@@ -14,7 +18,7 @@ body {
   border-bottom: solid 1px #585858;
 }
 
-.nav-bar li a{
+.navBar li a{
   display: block;
   color: #585858;
   text-align: center;
@@ -23,22 +27,44 @@ body {
   border-top: solid 1px transparent;
 }
 
-.nav-bar li a:hover {
+.navBar li a:hover {
   color: #000;
+}
+
+.mainBody{
+ margin: 5%;
+}
+
+.readingColumn p{
+  margin-bottom: 5%;
+  text-align: justify;
 }
 
 @media (min-width: 600px) {
   body {
-    background: #fff;
+    line-height: 1.5rem;
   }
 
-  .nav-bar li{
+  .navBar li{
     float: left;
     padding: 0% 5%;
   }
   
-  .nav-bar li a:hover {
+  .navBar li a:hover {
     border-top: solid 1px #000;
-    color: #000
+  }
+  .mainBody{
+    margin: auto;
+    width: 40%;
+  }
+  .readingColumn{
+    overflow: auto;
+    height: 800px;
+    scrollbar-color: #585858 RGBA(0,0,0,0.2);
+    scrollbar-width: thin;
+  }
+  .readingColumn p{
+    margin-right: 1rem;
+    text-align: justify;
   }
 }
