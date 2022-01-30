@@ -19,7 +19,7 @@ firstPotato.onmouseleave =function(){
 
 addBtn.onclick = function(){
     let newPotato = document.createElement('img');
-    newPotato.src = "../assets/potato.png";
+    newPotato.src = "assets/potato.png";
     newPotato.classList.add('potImg');
     containter.appendChild(newPotato);
     potatoes = document.querySelectorAll('img.potImg');
