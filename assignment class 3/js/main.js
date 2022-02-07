@@ -1,10 +1,9 @@
 const hamBtn = document.querySelector('#hamburgerBtn');
-const hamMenu = document.querySelector('div.hamMenu');
+const hamMenu = document.querySelector('.hamMenu');
 const firstPotato = document.querySelector('#firstPotato');
 const barText = document.querySelector('#barText');
 let potatoes = [];
 const containter = document.querySelector('#contentContainer');
-const addBtn = document.querySelector('#addBtn');
 hamBtn.onclick =  function(){
     console.log("clicked");
     hamMenu.classList.toggle('hamExpanded');
@@ -17,12 +16,14 @@ firstPotato.onmouseleave =function(){
     firstPotato.classList.remove('potatoHovered');
 }
 
-addBtn.onclick = function(){
+firstPotato.addEventListener('click',functionName);
+
+function functionName(){
     let newPotato = document.createElement('img');
     newPotato.src = "assets/potato.png";
     newPotato.classList.add('potImg');
     containter.appendChild(newPotato);
-    potatoes = document.querySelectorAll('img.potImg');
+    potatoes = document.querySelectorAll('.potImg');
     potatoes.forEach(element => {
         element.onmouseenter = function(){
             element.classList.add('potatoHovered');
@@ -30,14 +31,10 @@ addBtn.onclick = function(){
         element.onmouseleave =function(){
             element.classList.remove('potatoHovered');
         }
+        element.addEventListener('click',functionName);
     });
     barText.textContent = `There are currently ${potatoes.length} potatoes`;
 }
-
-
-
-
-
 
 
 
