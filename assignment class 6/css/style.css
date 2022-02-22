@@ -1,0 +1,84 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    height: 100%;
+    font-family: Helvetica, Arial, sans-serif;
+}
+section{
+    position:relative;
+    background:#eee;
+    padding:20px;
+}
+
+#banner{
+    min-height: 100vh;
+    height: auto;
+    /* Photo by Edgar Hernandez from Pexels */
+    background:url(../assets/background.jpg) fixed center center no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header{
+    text-align: center;
+}
+
+#headline{
+    color: white;
+    font-size: 4em;
+    text-transform: uppercase;
+}
+
+#subheadline{
+    color: white;
+    font-size: 2.5em;
+    text-transform: uppercase;
+}
+
+#content{
+    margin: auto;
+    width: 95%;
+    background-color: white;
+}
+
+#contentheadline{
+    font-size: 2em;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 2em;
+}
+
+#paras p{
+    line-height: 2em;
+    font-size: 1.2em;
+    text-align: justify;
+}
+
+.slide {
+	opacity: 0;
+	transform: translateX(3em);
+	transition: all .3s .15s ease-out;
+	will-change: all;
+}
+
+.slide.visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+.slide-up {
+	opacity: 0;
+	transform: translateY(2em);
+	transition: all .3s .15s ease-out;
+}
+
+.slide-up.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
