@@ -40,6 +40,23 @@ body {
   text-align: justify;
 }
 
+.assignment_list{
+  list-style: none;
+  padding: 0;
+}
+
+.assignment_list a{
+  text-decoration: none;
+  color: #585858;
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
+.assignment_list a:hover{
+  text-decoration: none;
+  color: #000;
+}
+
 @media (min-width: 600px) {
   body {
     line-height: 1.5rem;
@@ -53,18 +70,26 @@ body {
   .navBar li a:hover {
     border-top: solid 1px #000;
   }
+
   .mainBody{
     margin: auto;
     width: 40%;
   }
+
   .readingColumn{
     overflow: auto;
     height: 800px;
     scrollbar-color: #585858 RGBA(0,0,0,0.2);
     scrollbar-width: thin;
   }
+
   .readingColumn p{
     margin-right: 1rem;
     text-align: justify;
   }
+  
+ .imageCol{
+  margin: auto;
+  width: 50%;
+ }
 }
