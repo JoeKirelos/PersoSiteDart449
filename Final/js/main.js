@@ -6,10 +6,13 @@ const nextBtn = document.querySelector("#next-btn");
 
 const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
-
+// stops book from flipping when the survery ends
+let bookEnded = false;
 //used to hide content(questions) on previous and following pages
 const leftHider = document.querySelector("#hideContentLeft");
 const rightHider = document.querySelector("#hideContentRight");
+
+const contentReserve = document.querySelector('#contentReserve');
 
 let contentArray = document.querySelectorAll(".contents"); //array to hold content(questions)
 let bookPosition = 0; //book position 0 is closed, 1 is left page focused, 2 is right page focused
@@ -24,13 +27,13 @@ let ageNumber = 1; //initiall age number
 
 let studentStatus = false; //student status is initially false
 let introvert = false; //introvert status is initially false
-let inPersonClasses = 0; //value of 0 is irrelevant, -1 is remote classes for extroverts, -2 is inperson classes for introverts, 1 is inperson classes for extroverts, 2 is remote classes for introverts
+let remoteClassesStat = 0; //value of 0 is for non students, -1 is inperson classes, 1 is remote classes
 let prePandJob = false; //binary, mostly used to determine upcoming questions
 let essentialWorker = false; //binary, used to decide if the question of losing job due to pandemic is asked or not
 let lostJob = 0; // 0 is no value or didn't have a job, -1 is if the person lost their job, 1 is if they didn't
-let foundAnotherJob = 0; // follow up to losing job 1 if they found one, -1 if not
+let foundNewJob = 0; // follow up to losing job 1 if they found one, -1 if not
 let retired = false; //binary to determine other questions
-let workingFromHome = 0; //same value scheme as inperson classes
+let workingFromHome = 0; //same value scheme as inperson classes (1 is working from home, -1 is inoffice)
 let socialCircle = 0; //multi values question, self rated 1-5
 let livedAlone = true;
 //living partners
@@ -107,6 +110,7 @@ prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
 //age slider
 ageSlider.addEventListener("mouseup", setAge);
+
 //for yes/no buttons I chose to declare these functions anonymously as opposed to addEventListener(event,function) to avoid having to duplicate each function's decleration for a positive and negative, ultimately I realize that in both cases there is 2 instances of each function which is inefficient but I cannot seem to figure out how to pass an argument through addEventListner
 //functions that rely on input elements such as sliders or radio buttons are declared at the bottom of the document as there was no need to declare them anonymously
 //student buttons
@@ -197,19 +201,19 @@ isolationSlider.addEventListener("mouseup", setIsolation);
 let currentPaper = 0;
 let numOfPages = papers.length;
 
+
+//procceeds to next page, applies the flipped class to the paper, since each paper has 2 pages it flips the object around. Uf the current page in focus is the one on the left it switches focus to the right, updates the currentPaper value (since the right page is a different sheet) as well as calls the appropriate content management function
 function goNextPage() {
-    if(currentPaper < numOfPages) {
+    if(currentPaper < numOfPages && bookEnded === false) {
         if(bookPosition === 0){
             bookMovement(1);
             decideContent();
             papers[0].classList.add("flipped");
-            papers[0].style.zIndex = 1;
             assignContentBack(contentIndex);
         }else if(bookPosition === 1){
             decideContent();
             moveBook();
             currentPaper++;
-            papers[currentPaper].style.zIndex = currentPaper+1;
             assignContentFront(contentIndex);
         }else if(bookPosition ===2){
             if(currentPaper+1 === numOfPages){
@@ -218,40 +222,46 @@ function goNextPage() {
             moveBook();
             decideContent();
             papers[currentPaper].classList.add("flipped");
-            papers[currentPaper].style.zIndex = currentPaper+1;
             assignContentBack(contentIndex);
         }
-        console.log(surveyState);
+        reorderPapers();
+        console.log(`state = ${surveyState}`);
     }
 }
 
-
+//returns to previous page, removes the flipped class from the paper, since each paper has 2 pages it flips the object around. If the current page in focus is the one on the right it switches focus ot the left, updates the currentPaper value (since the left page is a different sheet) as well as calls the appropriate content management function
 function goPrevPage() {
     if(currentPaper >= 0) {
-        if(bookPosition === 3 &&bookEnded === true){
-            bookEnded = false;
-            // undoContent();
-            bookMovement(2);
-            papers[currentPaper].classList.remove("flipped");
-        }else if(bookPosition === 1){
-            if(currentPaper <= 0){
+        if(bookPosition === 1){
+            if(currentPaper === 0){
                 bookMovement(3);
             }else{
                 moveBook();
             }
-            // undoContent();
+            returnContent(contentIndex);
+            undoContent();
             papers[currentPaper].classList.remove("flipped");
-            papers[currentPaper].style.zIndex = numOfPages-currentPaper;
         }else if(bookPosition === 2){
-            // undoContent();
+            returnContent(contentIndex);
+            undoContent();
             moveBook();
-            papers[currentPaper].style.zIndex = numOfPages-currentPaper;
             currentPaper--;
         }
-        console.log(currentPaper);
+        reorderPapers();
+        console.log(`state = ${surveyState}`);
     }  
 }
 
+//reassigns the zIndex of all the papers so that the paper currently focused is always visible and ineractable
+function reorderPapers(){
+    // console.log(papers[currentPaper]);
+    papers.forEach(element => {
+        element.style.zIndex = 1;
+    });
+    papers[currentPaper].style.zIndex = 2;
+}
+
+//default book positioning behavior, if it's focusing left focus right and vice versa
 function moveBook(){
     // console.log(bookPosition);
     if(bookPosition===1){
@@ -263,6 +273,7 @@ function moveBook(){
     }
 }
 
+//switches the position of the book to be in line with the focused page as well as call the functions for the appropriate hiders
 function bookMovement(bookPos){
     switch(bookPos){
         case 3:
@@ -294,19 +305,29 @@ function bookMovement(bookPos){
     }
 }
 
+//hides the hider passed in argument, basically showing the content of the page at a slight delay
 function hide(page){
     page.style.visibility ="hidden";
 }
 
+//shows the hider passed in argument, hiding the content of the page at a slight delay
 function show(page){
     page.style.visibility = "visible";
 }
 
-
-function assignContentFront(num){
-    // console.log(numOfPages);
+//returns the content on the current page back to a hidden off screen container, this is to avoid keeping it on the page in case the page is assigned different content
+function returnContent(num){
+    console.log(`returning index ${num}`);
     pageContent = contentArray[num];
-    // pageContent = Array.from(contentArray).find(x => x.id === `content${questionIndex}`); //can probably just be contentArray[questionIndex]
+    contentReserve.appendChild(pageContent);
+    pageContent.classList.add("hid", "fixed-Bottom");
+}
+
+//places the content chosen by decide content on the front of the current page
+function assignContentFront(num){
+    console.log(`assigning index ${num}`);
+    pageContent = contentArray[num];
+    // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
     // console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .front");
     currentPaperContent = currentPage.querySelector(":scope > .front-content");
@@ -314,10 +335,11 @@ function assignContentFront(num){
     pageContent.classList.remove("hid", "fixed-Bottom");
 }
 
+//places the content chosen by decide content on the back of the current page
 function assignContentBack(num){
-    // console.log(numOfPages);
+    console.log(`assigning index ${num}`);
     pageContent = contentArray[num];
-    // pageContent = Array.from(contentArray).find(x => x.id === `content${questionIndex}`); //can probably just be contentArray[questionIndex]
+    // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
     // console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .back");
     currentPaperContent = currentPage.querySelector(":scope > .back-content");
@@ -325,6 +347,11 @@ function assignContentBack(num){
     pageContent.classList.remove("hid", "fixed-Bottom");
 }
 
+//The functions decideContent and undoContent are used to decide which piece of content shows up on the next page as well as appropriately back track through the survey. 
+//I chose to not ask all users the same questions, based on simple ideas such as users under 18 are unlikely to be living alone, users over 28 are unlikely to be students. 
+//Example: for users under 18 the question asking if they're an introvert or not is framed within a school setting as opposed to a party setting. 
+//In order to avoid duplicating questions I chose to instead create an indexing system for states at which user finds themselves in the survey and using a roadmap diagram I am then able to direct the user forwards or more importantly backwards should they choose to undo their last answer.
+//The decideContent function also serves to call the appropriate functions in situations where radio buttons are used and need to have their values checked
 function decideContent(){
     switch(surveyState){
         case 2:
@@ -347,7 +374,9 @@ function decideContent(){
             break;
         case 3:
             contentIndex = 20;
-            break; //end
+            bookEnded = true;
+            surveyState = 28;
+            break; 
         case 4:
             if(studentStatus){
                 contentIndex = 5;
@@ -357,7 +386,13 @@ function decideContent(){
                 surveyState = 7;
             }
             break;
+        case 5:
+            setIntrovertStatusStudent();
+            contentIndex = 6;
+            surveyState = 6;
+            break;
         case 6:
+            setRemoteClasses();
             contentIndex = 8;
             surveyState = 7;
             break;
@@ -385,7 +420,9 @@ function decideContent(){
             break;
         case 12:
             contentIndex = 20;
-            break; //end
+            bookEnded = true;
+            surveyState = 29;
+            break;
         case 13:
             if(lostJob){
                 contentIndex = 12;
@@ -396,6 +433,7 @@ function decideContent(){
             }
             break;
         case 14:
+            setWFHStatus();
             if(ageNumber<18){
                 contentIndex = 14;
                 surveyState = 26;
@@ -405,23 +443,26 @@ function decideContent(){
             }
             break;
         case 15:
-            if(foundAnotherJob === 1){
+            if(foundNewJob === 1){
                 contentIndex = 13;
-                surveyState = 16;
-            }else{
+                surveyState = 14;
+            }else if(foundNewJob === -1){
                 contentIndex = 14;
                 surveyState = 26;
             }
             break;
         case 16:
+            setIntrovertStatus();
             contentIndex = 4;
             surveyState = 19;
             break;
         case 17:
+            setIntrovertStatus();
             contentIndex = 8;
             surveyState = 21;
             break;
         case 18:
+            setIntrovertStatus();
             contentIndex = 11;
             surveyState = 25;
             break;
@@ -466,7 +507,7 @@ function decideContent(){
             }
             break;
         case 24:
-            if(foundAnotherJob=== 1){
+            if(foundNewJob=== 1){
                 contentIndex = 13;
                 surveyState = 14;
             }else {
@@ -491,23 +532,184 @@ function decideContent(){
             contentIndex = 18;
             surveyState = 12;
             break;
+        case 28:
+            break;
+        case 29:
+            break;
         default:
             contentIndex++;
             surveyState++;
             break;
     }
 }
+//The undoContent function also serves to undo any assignment of values where necessary
+function undoContent(){
+    switch(surveyState){
+        case 0:
+            break;
+        case 3:
+                bookEnded = false;
+                contentIndex= 2;
+                surveyState = 2;
+            break;
+        case 4:
+            contentIndex= 2;
+            surveyState = 2;
+            break;
+        case 7:
+            if(studentStatus){
+                contentIndex= 6;
+                surveyState = 6;
+            }else if(!studentStatus){
+                contentIndex= 4;
+                surveyState = 4;
+            }
+            break;
+        case 8:
+            if(retired){
+                contentIndex= 11;
+                surveyState = 25;
+            }else if(!prePandJob){
+                contentIndex= 8;
+                surveyState = 21;
+            }else if(foundNewJob === -1){
+                contentIndex= 12;
+                surveyState = 24;
+            }else{
+                contentIndex= 13;
+                surveyState = 14;
+            }
+            break;
+        case 11:
+            contentIndex= 15;
+            surveyState = 9;
+            break;
+        case 12:
+            bookEnded = false;
+            if(ageNumber<18){
+                contentIndex= 19;
+                surveyState = 27;
+            }else if(livedAlone){
+                contentIndex= 17;
+                surveyState = 11;
+            }else if(!livedAlone){
+                contentIndex= 16;
+                surveyState = 10;
+            }
+            break;
+        case 13:
+            contentIndex= 8;
+            surveyState = 7;
+            break;
+        case 14:
+            if(ageNumber<18){
+                if(!lostJob){
+                    contentIndex= 10;
+                    surveyState = 13;
+                }else{
+                    contentIndex= 12;
+                    surveyState = 15;
+                }
+                }else{
+                    if(essentialWorker){
+                        contentIndex= 9;
+                        surveyState = 22;
+                    }else if(!lostJob){
+                        contentIndex= 10;
+                        surveyState = 23;
+                    }else if(foundNewJob === 1){
+                        contentIndex= 12;
+                        surveyState = 24;
+                    }
+                }
+            break;
+        case 15:
+            foundNewJob = 0;
+            contentIndex = 10;
+            surveyState = 13;
+            break;
+        case 16:
+            contentIndex= 2;
+            surveyState = 2;
+            break;
+        case 17:
+            contentIndex= 2;
+            surveyState = 2;
+            break;
+        case 18:
+            contentIndex= 2;
+            surveyState = 2;
+            break;
+        case 19:
+            contentIndex= 7;
+            surveyState = 16;
+            break;
+        case 20:
+            contentIndex= 4;
+            surveyState = 19;
+            break;
+        case 21:
+            if(ageNumber<28 && studentStatus){
+                contentIndex= 6;
+                surveyState = 20;
+            }else if(ageNumber<28 && !studentStatus){
+                contentIndex= 4;
+                surveyState = 19;
+            }else if(ageNumber<60){
+                contentIndex= 7;
+                surveyState = 17;
+            }else if(ageNumber>=60){
+                contentIndex= 11;
+                surveyState = 25;
+            }
+            break;
+        case 24:
+            foundNewJob = 0;
+            contentIndex = 10;
+            surveyState = 23;
+            break;
+        case 25:
+            contentIndex = 7;
+            surveyState = 18;
+            break;
+        case 26:
+            if(!prePandJob){
+                contentIndex= 8;
+                surveyState = 7;
+            }else if(prePandJob && !lostJob){
+                contentIndex= 13;
+                surveyState = 14;
+            }else if(prePandJob && lostJob && foundNewJob=== 1){
+                contentIndex= 13;
+                surveyState = 14;
+            }else if(prePandJob && foundNewJob=== -1){
+                contentIndex= 12;
+                surveyState = 15;
+            }else if(prePandJob && foundNewJob === 0){
+                contentIndex= 13;
+                surveyState = 14;
+            }
+            break;
+        case 27:
+            contentIndex= 14;
+            surveyState = 26;
+            break;
+        case 28:
+            contentIndex = 3;
+            surveyState = 3;
+            break;
+        case 29:
+            contentIndex = 18;
+            surveyState = 12;
+            break;
+        default:
+            contentIndex--;
+            surveyState--;
+            break;
+    }
+}
 
-// function undoContent(){
-//     switch(contentIndex){
-//         case 0:
-//             break;
-//         default:
-//             contentIndex--;
-//             break;
-//     }
-// }
-
+//used to add more papers to the end of the book as needed
 function addPaper(){
     let newPaper = document.createElement('div');
     newPaper.classList.add('paper');
@@ -536,6 +738,8 @@ function addPaper(){
     numOfPages = papers.length;
 }
 
+///////////////////////functions that keep track of user input during the survery///////////////////
+
 function setAge(){
     ageNumber = ageSlider.value;
     ageOutput.innerHTML = `I am ${ageNumber} years old`;
@@ -551,7 +755,6 @@ function setAge(){
         ageImage.src = "assets/images/Age-E-PH.png"
     }
 }
-
 
 
 function setParents(){
@@ -616,3 +819,49 @@ function setSocialStatus(){
     socialCircle = socialStatus.value;
     console.log(socialCircle);
 }
+
+function setIntrovertStatusStudent(){
+    for (const radioButton of studentIntExtRadio){
+        if (radioButton.checked){
+            if(radioButton.value === "true"){
+                introvert = true;
+            }else{
+                introvert = false;
+            }
+        }
+    }
+    console.log(introvert);
+}
+
+function setIntrovertStatus(){
+    for (const radioButton of radioIntExt){
+        if (radioButton.checked){
+            if(radioButton.value === "true"){
+                introvert = true;
+            }else{
+                introvert = false;
+            }
+
+        }
+    }
+    console.log(introvert);
+}
+
+function setWFHStatus(){
+    for (const radioButton of wfhRadio){
+        if (radioButton.checked){
+            workingFromHome = parseInt(radioButton.value);
+        }
+    }
+    console.log(workingFromHome);
+}
+
+function setRemoteClasses(){
+    for (const radioButton of remoteClasses){
+        if (radioButton.checked){
+            remoteClassesStat = parseInt(radioButton.value);
+        }
+    }
+    console.log(remoteClassesStat);
+}
+/////////////////////////////////////////////////////////////////////////////////////////
