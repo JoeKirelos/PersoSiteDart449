@@ -13,22 +13,24 @@
          <!-- Book -->
     <div id="book" class="book">
         <!-- hide content -->
-        <div id="hideContentLeft">
-            <!-- lorem left -->
+        <!-- <div id="hideContentLeft">
         </div>
         <div id="hideContentRight">
-            <!-- lorem right -->
-        </div>
+        </div> -->
         <!-- Paper 1 -->
         <div id="p1" class="paper">
             <div class="front">
                 <div id="f1" class="front-content">
-
+                    
+                    <div id="firstPage">
+                        <div id="content0" class="contents">
+                            <h1>DIARY</h1>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="back">
                 <div id="b1" class="back-content">
-                    <h1>Back 1</h1>
                 </div>
             </div>
         </div>
@@ -36,12 +38,12 @@
         <div id="p2" class="paper">
             <div class="front">
                 <div id="f2" class="front-content">
-                    <h1>Front 2</h1>
+
                 </div>
             </div>
             <div class="back">
                 <div id="b2" class="back-content">
-                    <h1>Back 2</h1>
+
                 </div>
             </div>
         </div>
@@ -49,24 +51,20 @@
         <div id="p3" class="paper">
             <div class="front">
                 <div id="f3" class="front-content">
-                    <h1>Front 3</h1>
                 </div>
             </div>
             <div class="back">
                 <div id="b3" class="back-content">
-                    <h1>Back 3</h1>
                 </div>
             </div>
         </div>
-        <div id="p4" class="paper">
+        <div class="paper">
             <div class="front">
-                <div id="f4" class="front-content">
-                    <h1>Front 4</h1>
+                <div class="front-content">
                 </div>
             </div>
             <div class="back">
-                <div id="b4" class="back-content">
-                    <h1>Back 4</h1>
+                <div class="back-content">
                 </div>
             </div>
         </div>
@@ -74,41 +72,180 @@
     <div class="button-box">
         <button id="prev-btn">←</button>
         <button id="next-btn">→</button>
-        <button id="test-btn">Test</button>
     </div>
+    <!-- All the content that can appear on the pages, it's all generated at the start and is then moved to the page as needed. It's given classes that hide it and keep it off screen in order to not interfer with the book's layout -->
 <div id="content1" class="contents hid fixed-Bottom">
-    <h2>1</h2>
+    <p>My name is <input type="text" id="user-name"> and this is my diary</p>
 </div>
 <div id="content2" class="contents hid fixed-Bottom">
-    <h2>2</h2>
+    <img src="assets/images/Age-A-PH.png" id="ageImage" alt="">
+    <div class="slidecontainer">
+        <input type="range" min="2" max="75" value="02" class="slider" id="ageRange">
+        <p id="ageText">I am 1 year old</p>
+      </div>
 </div>
 <div id="content3" class="contents hid fixed-Bottom">
-    <h2>3</h2>
+    <p>Please get off the internet until you're over the age of 13</p>
 </div>
 <div id="content4" class="contents hid fixed-Bottom">
-    <h2>4</h2>
+    <p>During Covid I was a student</p>
+    <img src="assets/images/Student-PH.png" alt="">
+    <button id="student-yes" class="yBtn">yes</button>
+    <button id="student-no" class="nBtn">no</button>
 </div>
 <div id="content5" class="contents hid fixed-Bottom">
-    <h2>5</h2>
+    <p>During lunch at school you'd likely find me</p>
+    <input type="radio" name="introvert-extrovert-student" value="1"/>
+    <label for="intro">
+        <img src="assets/images/introvert-PH.png" alt="">
+    </label>
+    <input type="radio" name="introvert-extrovert-student" value="2"/>
+    <label for="extro">
+        <img src="assets/images/extrovert-PH.png" alt="">
+    </label>
 </div>
 <div id="content6" class="contents hid fixed-Bottom">
-    <h2>6</h2>
+    <p>Most of my classes for covid were</p>
+    <input type="radio" name="remote-classes" value="1"/>
+    <label for="intro">
+        <img src="assets/images/remote-class-Y-PH.png" alt="">
+    </label>
+    <input type="radio" name="remote-classes" value="2"/>
+    <label for="extro">
+        <img src="assets/images/remote-class-N-PH.png" alt="">
+    </label>
 </div>
 <div id="content7" class="contents hid fixed-Bottom">
-    <h2>7</h2>
+    <p>At a party you'd more likely find me</p>
+    <input type="radio" name="introvert-extrovert" value="1"/>
+    <label for="intro">
+        <img src="assets/images/introvert-PH.png" alt="">
+    </label>
+    <input type="radio" name="introvert-extrovert" value="2"/>
+    <label for="extro">
+        <img src="assets/images/extrovert-PH.png" alt="">
+    </label>
+</div>
+<div id="content8" class="contents hid fixed-Bottom">
+    <p>When the pandemic started I had a job</p>
+    <button id="prePandJob-yes" class="yBtn">yes</button>
+    <button id="prePandJob-no" class="nBtn">no</button>
+</div>
+<div id="content9" class="contents hid fixed-Bottom">
+    <p>I was an essentail worker</p>
+    <button id="essWorker-yes" class="yBtn">yes</button>
+    <button id="essWorker-no" class="nBtn">no</button>
+</div>
+<div id="content10" class="contents hid fixed-Bottom">
+    <p>When the pandemic started I lost my job</p>
+    <button id="lostJob-yes" class="yBtn">yes</button>
+    <button id="lostJob-no" class="nBtn">no</button>
+</div>
+<div id="content11" class="contents hid fixed-Bottom">
+    <p>I have retired during the pandemic</p>
+    <button id="retired-yes" class="yBtn">yes</button>
+    <button id="retired-no" class="nBtn">no</button>
+</div>
+<div id="content12" class="contents hid fixed-Bottom">
+    <p>I was able to find another job</p>
+    <button id="foundNewJob-yes" class="yBtn">yes</button>
+    <button id="foundNewJob-no" class="nBtn">no</button>
+</div>
+<div id="content13" class="contents hid fixed-Bottom">
+    <p>Due to the pandemic I had to work from home</p>
+    <input type="radio" name="working-from-home" value="1"/>
+    <label for="intro">
+        <img src="assets/images/WFH-Y-PH.png" alt="">
+    </label>
+    <input type="radio" name="working-from-home" value="2"/>
+    <label for="extro">
+        <img src="assets/images/WFH-N-PH.png" alt="">
+    </label>
+</div>
+<div id="content14" class="contents hid fixed-Bottom">
+    <p>Despite the pandemic, I maintained a well established social circle</p>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="5" value="05" class="slider" id="socCircle">
+      </div>
+</div>
+<div id="content15" class="contents hid fixed-Bottom">
+    <p>During the pandemic I lived alone</p>
+    <button id="lived-alone-yes" class="yBtn">yes</button>
+    <button id="lived-alone-no" class="nBtn">no</button>
+</div>
+<div id="content16" class="contents hid fixed-Bottom">
+    <p>I lived with</p>
+    <table class="sliderTable">
+        <tbody>
+            <tr>
+                <td><input type="range" min="0" max="2" value="00" class="slider" id="parents"></td>
+                <td>parents</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="siblings"></td>
+                <td>siblings</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="relatives"></td>
+                <td>relatives</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="pets"></td>
+                <td>pets</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="1" value="00" class="slider" id="romPartner"></td>
+                <td>romantic partner</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="5" value="00" class="slider" id="children"></td>
+                <td>children</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="5" value="00" class="slider" id="roommates"></td>
+                <td>roommates</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="content17" class="contents hid fixed-Bottom">
+    <p>I have pets</p>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="8" value="00" class="slider" id="petsAlone">
+    </div>
+</div>
+<div id="content18" class="contents hid fixed-Bottom">
+    <p>I felt/feel isolated</p>
+    <div class="slidecontainer">
+        <input type="range" min="0" max="5" value="05" class="slider" id="isolationSlider">
+    </div>
+</div>
+<div id="content19" class="contents hid fixed-Bottom">
+    <p>I live with</p>
+    <table class="sliderTable">
+        <tbody>
+            <tr>
+                <td><input type="range" min="0" max="2" value="00" class="slider" id="parentsUA"></td>
+                <td>parents</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="siblingsUA"></td>
+                <td>siblings</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="relativesUA"></td>
+                <td>relatives</td>
+            </tr>
+            <tr>
+                <td><input type="range" min="0" max="8" value="00" class="slider" id="petsUA"></td>
+                <td>pets</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div id="content20" class="contents hid fixed-Bottom">
+    <!-- Empty -->
 </div>
 
-
-
-
-
-
-        <!-- <div id="mainContainer">
-            <div id="pageTitle">
-                <h1>Diary</h1>
-                <h4>by a covid introvert</h4>
-            </div>
-            <div class="imageContainer"><img class="centredImg" src="assets/images/placeholder 1.png" alt=""></div>
-        </div> -->
     </body>
 </html>
