@@ -8,8 +8,8 @@ const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
 
 //used to hide content(questions) on previous and following pages
-// const leftHider = document.querySelector("#hideContentLeft");
-// const rightHider = document.querySelector("#hideContentRight");
+const leftHider = document.querySelector("#hideContentLeft");
+const rightHider = document.querySelector("#hideContentRight");
 
 let contentArray = document.querySelectorAll(".contents"); //array to hold content(questions)
 let bookPosition = 0; //book position 0 is closed, 1 is left page focused, 2 is right page focused
@@ -267,26 +267,26 @@ function bookMovement(bookPos){
     switch(bookPos){
         case 3:
             book.style.transform = "translateX(0%)";
-            // hide(rightHider);
-            // hide(leftHider);
+            hide(rightHider);
+            hide(leftHider);
             bookPosition = 0;
             break;
         case 1:
             book.style.transform = "translateX(100%)";
-            // hide(leftHider);
-            // show(rightHider);
+            hide(leftHider);
+            show(rightHider);
             bookPosition = 1;
             break;
         case 2:
             book.style.transform = "translateX(0%)";
-            // hide(rightHider);
-            // show(leftHider);
+            hide(rightHider);
+            show(leftHider);
             bookPosition = 2;
             break;
         case 0:
             book.style.transform = "translateX(100%)";
-            // hide(rightHider);
-            // hide(leftHider);
+            hide(rightHider);
+            hide(leftHider);
             bookPosition = 3;
             break;
         default:
@@ -294,13 +294,13 @@ function bookMovement(bookPos){
     }
 }
 
-// function hide(page){
-//     page.style.visibility ="hidden";
-// }
+function hide(page){
+    page.style.visibility ="hidden";
+}
 
-// function show(page){
-//     page.style.visibility = "visible";
-// }
+function show(page){
+    page.style.visibility = "visible";
+}
 
 
 function assignContentFront(num){
