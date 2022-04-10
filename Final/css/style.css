@@ -1,25 +1,37 @@
 /* fonts
 Merriweather (google fonts) */
 @import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 @import url('https://www.behance.net/gallery/20221623/REIS-FREE-FONT-BY-MARCELO-REIS-MELO/modules/136181273');
+@import url('http://fonts.cdnfonts.com/css/jo-wrote-a-lovesong');
 
 *{ 
     margin: 0;
     padding: 0; 
     box-sizing: border-box;
  }   
+ html{
+    overflow-y: hidden;
+ }
 :root{
-    --bgColor: #f3f3f3;
-    --light-Grey: #bbbbbb6c;
-    --dark-Grey: #333;
-    --line-height: 25px;
+   --bgColor: #f3f3f3;
+   --light-Grey: #bbbbbb6c;
+   --dark-Grey: #333;
+   --line-height: 25px;
+   --IndieFlower: 'Indie Flower', cursive;
+   --Reis: 'Reis', cursive;
+   --JoFont: 'Jo_wrote_a_lovesong', cursive;
+   --fontFam: var(--IndieFlower);
 }
+
  body{
    max-width: 100%;
    overflow-x: hidden;
-   font-family: 'Merriweather', serif;
    line-height: var(--line-height);
+   background-image: url('../assets/images/background.jpg'); /*Image by Michael Schwarzenberger from Pixabay https://pixabay.com/photos/wood-board-structure-boards-grain-59163* */
    /* background-color: var(--bgColor); */
+   background-repeat: no-repeat; 
+   background-size: cover;
    height: 100vh;
    display: flex;
    justify-content: center;
@@ -31,7 +43,8 @@ input[type=radio] {
  }
 
  input[type=radio]:checked + label > img {
-   border: 20px solid rgb(228, 207, 94);
+   border: 2px dashed rgb(0, 0, 0);
+   border-radius: 55% 60% 65% 50%;
  }
 
  #firstPage{
@@ -39,17 +52,37 @@ input[type=radio] {
     top: 5%;
  }
 .contents{
-   font-family: 'Reis', sans-serif;
+   width: 100%;
+   /* height: 80%; */
+   font-family: var(--fontFam);
    font-size: 24px;
    margin: 5%;
+   display: flexbox;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+}
+.contents img{
+   width: 70%;
 }
 #user-name{
-   font-family: 'Reis', sans-serif;
+   font-family: var(--fontFam);
    font-size: 24px;
    height: 1.4em;
    text-align: center;
    width: auto;
    border: none;
+}
+
+.yBtn{
+   font-family: var(--fontFam);
+   font-size: 22px;
+   color: black;
+}
+.nBtn{
+   font-family: var(--fontFam);
+   font-size: 22px;
+   color: black;
 }
 
 #f1{
@@ -58,7 +91,7 @@ input[type=radio] {
    background-size: 10px 10px;
    background-image: repeating-linear-gradient(45deg, #5b0404 0, #5b0404 1px, #220202 0, #220202 50%);
    color: #fff;
-   width: 102%;
+   width: 104%;
    border-top-right-radius: 5%;
    border-bottom-right-radius: 5%;
    border-top-left-radius: 0.5%;
@@ -106,10 +139,9 @@ input[type=radio] {
 /*  Portions of this css code were acquired and adapted from https://github.com/codingstar-jason/3D-Book-Tutorial-Basic-CodingStar for the flipbook effect */
    .book {
       position: relative;
-      width: 75%;
+      width: 80%;
       height: 60%;
       transition: transform 0.5s;
-      
    }
 
    .paper {
@@ -137,6 +169,7 @@ input[type=radio] {
       left: 0;
       transform-origin: left;
       transition: transform 0.5s;
+      box-shadow: 5px 5px 10px 5px #00000010;
    }
    #hideContentLeft,
    #hideContentRight{
@@ -182,6 +215,7 @@ input[type=radio] {
    /* Controller Buttons */
    button {
       border: none;
+      /* color: #fff; */
       background-color: transparent;
       cursor: pointer;
       margin: 10px;
@@ -228,6 +262,10 @@ input[type=radio] {
 
 
  @media (min-width: 600px){
+    body{
+       /* background-size: 120%; */
+       overflow-y: hidden;
+    }
     #mainContainer{
         width: 95%;
         left: 50%;
@@ -240,11 +278,13 @@ input[type=radio] {
       width: 20%;
    }
    .book {
-      width: 40%;
+      width: 35%;
       height: 70%;
    }
    .paper {
       perspective: 2000px;
-      
+   }
+   .contents img{
+      width: 40%;
    }
  }

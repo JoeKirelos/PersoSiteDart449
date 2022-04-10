@@ -6,25 +6,20 @@ const nextBtn = document.querySelector("#next-btn");
 
 const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
-// stops book from flipping when the survery ends
-let bookEnded = false;
+
 //used to hide content(questions) on previous and following pages
 const leftHider = document.querySelector("#hideContentLeft");
 const rightHider = document.querySelector("#hideContentRight");
 
-const contentReserve = document.querySelector('#contentReserve');
-
+const contentReserve = document.querySelector('#contentReserve');//off screen container that holds content not currently being used
 let contentArray = document.querySelectorAll(".contents"); //array to hold content(questions)
-let bookPosition = 0; //book position 0 is closed, 1 is left page focused, 2 is right page focused
-
-let surveyState = 0; // is used to track the survey flow chart
 let contentIndex = 0; //is used to select the content to be shown on the following page
+let surveyState = 0; // is used to track the survey flow chart
 
 ////////////////////////////init user variables//////////////////////////
-
+let userName;
 let riskIndex = 0; //number to decide the level of isolation of the individual and the theme adjustments of the survey
 let ageNumber = 1; //initiall age number
-
 let studentStatus = false; //student status is initially false
 let introvert = false; //introvert status is initially false
 let remoteClassesStat = 0; //value of 0 is for non students, -1 is inperson classes, 1 is remote classes
@@ -44,13 +39,12 @@ let pets = 0; //also used if person indicates living alone
 let roommates = 0;
 let romanticPartner = 0;
 let children = 0;
-
 let isolation = 0; //same value scheme as social circle
-
 ////////////////////////////////////////////////////////////////////////
 
 //////////////////////Doc elements used for survey//////////////////////
 //age
+let nameBox = document.querySelector("#user-name");
 let ageSlider = document.querySelector('#ageRange');
 let ageOutput = document.querySelector('#ageText');
 let ageImage = document.querySelector('#ageImage');
@@ -109,6 +103,7 @@ let petsUASlider = document.querySelector('#petsUA');
 prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
 //age slider
+ageSlider.addEventListener("touchend", setAge);
 ageSlider.addEventListener("mouseup", setAge);
 
 //for yes/no buttons I chose to declare these functions anonymously as opposed to addEventListener(event,function) to avoid having to duplicate each function's decleration for a positive and negative, ultimately I realize that in both cases there is 2 instances of each function which is inefficient but I cannot seem to figure out how to pass an argument through addEventListner
@@ -168,6 +163,7 @@ foundNewJobY.addEventListener("click", function(){
     console.log(foundNewJob);
 });
 //social circle slider
+socialStatus.addEventListener("touchend", setSocialStatus);
 socialStatus.addEventListener("mouseup", setSocialStatus);
 //living situation
 livedAloneN.addEventListener("click", function(){
@@ -179,6 +175,14 @@ livedAloneY.addEventListener("click", function(){
     console.log(livedAlone);
 });
 //living partners sliders
+parentsSlider.addEventListener("touchend", setParents); 
+siblingsSlider.addEventListener("touchend", setSiblings); 
+relativesSlider.addEventListener("touchend", setRelatives); 
+petsSlider.addEventListener("touchend", setPets); 
+romPartnerSlider.addEventListener("touchend", setRomPartner);
+childrenSlider.addEventListener("touchend", setChildren); 
+roommatesSlider.addEventListener("touchend", setRoommates);
+//same set of events but for desktop
 parentsSlider.addEventListener("mouseup", setParents); 
 siblingsSlider.addEventListener("mouseup", setSiblings); 
 relativesSlider.addEventListener("mouseup", setRelatives); 
@@ -186,22 +190,37 @@ petsSlider.addEventListener("mouseup", setPets);
 romPartnerSlider.addEventListener("mouseup", setRomPartner);
 childrenSlider.addEventListener("mouseup", setChildren); 
 roommatesSlider.addEventListener("mouseup", setRoommates);
+
 //pets while living alone slider
+petsAloneSlider.addEventListener("touchend", setPets);
+//desktop version
 petsAloneSlider.addEventListener("mouseup", setPets);
+
 //living partners underage
+parentsUASlider.addEventListener("touchend", setParents); 
+siblingsUASlider.addEventListener("touchend", setSiblings); 
+relativesUASlider.addEventListener("touchend", setRelatives); 
+petsUASlider.addEventListener("touchend", setPets); 
+//desktop versions
 parentsUASlider.addEventListener("mouseup", setParents); 
 siblingsUASlider.addEventListener("mouseup", setSiblings); 
 relativesUASlider.addEventListener("mouseup", setRelatives); 
 petsUASlider.addEventListener("mouseup", setPets); 
 //isolationSlider
+isolationSlider.addEventListener("touchend", setIsolation);
+//desktop version
 isolationSlider.addEventListener("mouseup", setIsolation);
-// testBtn.addEventListener("click", assignContent);
+////////////////////////////////////////////////////////////////////////
 
-// Business Logic
+//variables for page flipping behavior
 let currentPaper = 0;
 let numOfPages = papers.length;
+let bookPosition = 0; //book position 0 is closed, 1 is left page focused, 2 is right page focused
+let bookEnded = false;// stops book from flipping when the survery ends
 
 
+
+///////////////////////////////////////////////functions///////////////////////////////////////
 //procceeds to next page, applies the flipped class to the paper, since each paper has 2 pages it flips the object around. Uf the current page in focus is the one on the left it switches focus to the right, updates the currentPaper value (since the right page is a different sheet) as well as calls the appropriate content management function
 function goNextPage() {
     if(currentPaper < numOfPages && bookEnded === false) {
@@ -354,6 +373,11 @@ function assignContentBack(num){
 //The decideContent function also serves to call the appropriate functions in situations where radio buttons are used and need to have their values checked
 function decideContent(){
     switch(surveyState){
+        case 1:
+            setUserName();
+            contentIndex = 2;
+            surveyState = 2;
+            break;
         case 2:
             if(ageNumber<13){
                 contentIndex = 3;
@@ -740,9 +764,13 @@ function addPaper(){
 
 ///////////////////////functions that keep track of user input during the survery///////////////////
 
+function setUserName(){
+    userName = nameBox.value;
+}
+
 function setAge(){
     ageNumber = ageSlider.value;
-    ageOutput.innerHTML = `I am ${ageNumber} years old`;
+    ageOutput.innerHTML = `Right I'm ${userName} and I'm ${ageNumber} years old`;
     if(ageNumber< 13){
         ageImage.src = "assets/images/Age-A-PH.png"
     }else if (ageNumber < 18){
@@ -841,7 +869,6 @@ function setIntrovertStatus(){
             }else{
                 introvert = false;
             }
-
         }
     }
     console.log(introvert);
