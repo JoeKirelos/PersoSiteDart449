@@ -131,17 +131,17 @@ const uaPetsNumber = document.querySelector('#uaPetsNumber');
 //progression buttons
 prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
-testBtn.addEventListener("click", modifyImages);
-test2Btn.addEventListener("click", function(){
-    if(imageMod === 1){
-        imageMod = 2;
-    }else if(imageMod ===2){
-        imageMod = 3;
-    }else{
-        imageMod = 1;
-    }
-    //console.log(imageMod);
-});
+// testBtn.addEventListener("click", modifyImages);
+// test2Btn.addEventListener("click", function(){
+//     if(imageMod === 1){
+//         imageMod = 2;
+//     }else if(imageMod ===2){
+//         imageMod = 3;
+//     }else{
+//         imageMod = 1;
+//     }
+//     //console.log(imageMod);
+// });
 //age slider
 ageSlider.addEventListener("touchend", setAge);
 ageSlider.addEventListener("mouseup", setAge);
