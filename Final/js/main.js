@@ -847,7 +847,7 @@ function setAge(){
         ageBracket = "E";
         // ageImage.src = "assets/images/Age-E-PH.png"
     }
-    ageImage.src =`assets/images/age-${ageBracket}-${imageMod}.png`;
+    ageImage.src =`../assets/images/age-${ageBracket}-${imageMod}.png`;
 }
 
 
