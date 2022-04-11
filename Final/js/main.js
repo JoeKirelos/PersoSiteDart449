@@ -3,8 +3,8 @@
 //progression buttons
 const prevBtn = document.querySelector("#prev-btn");
 const nextBtn = document.querySelector("#next-btn");
-const testBtn = document.querySelector("#testBtn");
-const test2Btn = document.querySelector("#test2Btn");
+// const testBtn = document.querySelector("#testBtn");
+// const test2Btn = document.querySelector("#test2Btn");
 
 const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
