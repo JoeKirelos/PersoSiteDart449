@@ -10,8 +10,8 @@ const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
 
 //used to hide content(questions) on previous and following pages
-const leftHider = document.querySelector("#hideContentLeft");
-const rightHider = document.querySelector("#hideContentRight");
+// const leftHider = document.querySelector("#hideContentLeft");
+// const rightHider = document.querySelector("#hideContentRight");
 
 const contentReserve = document.querySelector('#contentReserve');//off screen container that holds content not currently being used
 let contentArray = document.querySelectorAll(".contents"); //array to hold content(questions)
@@ -33,8 +33,8 @@ let foundNewJob = 0; // follow up to losing job 1 if they found one, -1 if not
 
 let retired = false; //binary to determine other questions
 let workingFromHome = 0; //same value scheme as inperson classes (1 is working from home, -1 is inoffice)
-let socialCircle = 0; //multi values question, self rated 1-5
-let livedAlone = true;
+let socialCircle = 3; //multi values question, self rated 1-5
+let livedAlone = 0;
 //living partners
 let parents = 0;
 let siblings = 0;
@@ -140,7 +140,7 @@ test2Btn.addEventListener("click", function(){
     }else{
         imageMod = 1;
     }
-    console.log(imageMod);
+    //console.log(imageMod);
 });
 //age slider
 ageSlider.addEventListener("touchend", setAge);
@@ -152,81 +152,81 @@ ageSlider.addEventListener("mouseup", setAge);
 studentYBtn.addEventListener("click", function(){
     studentStatus = true;
     studentText.innerHTML = "During Covid I was a student";
-    console.log(studentStatus);
+    //console.log(studentStatus);
 });
 studentNBtn.addEventListener("click", function(){
     studentStatus = false;
     studentText.innerHTML = "During Covid I wasn't a student";
-    console.log(studentStatus);
+    //console.log(studentStatus);
 });
 //job before pandemic buttons
 prePandJobN.addEventListener("click", function (){
     prePandJob = false;
     prePandJobText.innerHTML = "I didn't have a job before the pandemic";
-    console.log(prePandJob);
+    //console.log(prePandJob);
 });
 prePandJobY.addEventListener("click", function (){
     prePandJob = true;
     prePandJobText.innerHTML = "When the pandemic started I had a job";
-    console.log(prePandJob);
+    //console.log(prePandJob);
 });
 //essential worker buttons 
 essWorkerN.addEventListener("click", function(){
     essentialWorker= false;
     essWorkerText.innerHTML = "I wasn't an essential worker";
-    console.log(essentialWorker);
+    //console.log(essentialWorker);
 });
 essWorkerY.addEventListener("click", function(){
     essentialWorker= true;
     essWorkerText.innerHTML = "I was an essential worker";
-    console.log(essentialWorker);
+    //console.log(essentialWorker);
 });
 //lost Job due to Pandemic buttons
 lostJobN.addEventListener("click", function(){
     lostJob = -1;
     lostJobText.innerHTML = "When the pandemic started I kept my job";
-    console.log(lostJob);
+    //console.log(lostJob);
 });
 lostJobY.addEventListener("click", function(){
     lostJob= 1;
     lostJobText.innerHTML = "I lost my job because of the pandemic";
-    console.log(lostJob);
+    //console.log(lostJob);
 });
 //retired buttons
 retiredN.addEventListener("click", function(){
     retired= false;
-    retiredText = "I didn't retire during the pandemic";
-    console.log(retired);
+    retiredText.innerHTML = "I didn't retire during the pandemic";
+    //console.log(retired);
 });
 retiredY.addEventListener("click", function(){
     retired= true;
-    retiredText = "I have retired during the pandemic";
-    console.log(retired);
+    retiredText.innerHTML = "I have retired during the pandemic";
+    //console.log(retired);
 });
 //found another job buttons
 foundNewJobN.addEventListener("click", function(){
     foundNewJob= -1;
-    foundNewJobText = "I wasn't able to find another job";
-    console.log(foundNewJob);
+    foundNewJobText.innerHTML = "I wasn't able to find another job";
+    //console.log(foundNewJob);
 });
 foundNewJobY.addEventListener("click", function(){
     foundNewJob= 1;
-    foundNewJobText = "I was able to find another job";
-    console.log(foundNewJob);
+    foundNewJobText.innerHTML = "I was able to find another job";
+    //console.log(foundNewJob);
 });
 //social circle slider
 socialStatus.addEventListener("touchend", setSocialStatus);
 socialStatus.addEventListener("mouseup", setSocialStatus);
 //living situation
 livedAloneN.addEventListener("click", function(){
-    livedAlone= false;
+    livedAlone= -1;
     livedAloneText.innerHTML = "I didn't live alone during the pandemic";
-    console.log(livedAlone);
+    //console.log(livedAlone);
 });
 livedAloneY.addEventListener("click", function(){
-    livedAlone= true;
+    livedAlone= 1;
     livedAloneText.innerHTML = "During the pandemic I lived alone";
-    console.log(livedAlone);
+    //console.log(livedAlone);
 });
 //living partners sliders
 parentsSlider.addEventListener("touchend", setParents); 
@@ -317,8 +317,9 @@ function goNextPage() {
             assignContentBack(contentIndex);
         }
         reorderPapers();
-        console.log(`state = ${surveyState}`);
+        //console.log(`state = ${surveyState}`);
     }
+    setRiskIndex();
 }
 
 //returns to previous page, removes the flipped class from the paper, since each paper has 2 pages it flips the object around. If the current page in focus is the one on the right it switches focus ot the left, updates the currentPaper value (since the left page is a different sheet) as well as calls the appropriate content management function
@@ -340,13 +341,13 @@ function goPrevPage() {
             currentPaper--;
         }
         reorderPapers();
-        console.log(`state = ${surveyState}`);
+        //console.log(`state = ${surveyState}`);
     }  
 }
 
 //reassigns the zIndex of all the papers so that the paper currently focused is always visible and ineractable
 function reorderPapers(){
-    // console.log(papers[currentPaper]);
+    // //console.log(papers[currentPaper]);
     papers.forEach(element => {
         element.style.zIndex = 1;
     });
@@ -355,7 +356,7 @@ function reorderPapers(){
 
 //default book positioning behavior, if it's focusing left focus right and vice versa
 function moveBook(){
-    // console.log(bookPosition);
+    // //console.log(bookPosition);
     if(bookPosition===1){
         bookPosition = 2;
         bookMovement(bookPosition);
@@ -370,26 +371,26 @@ function bookMovement(bookPos){
     switch(bookPos){
         case 3:
             book.style.transform = "translateX(0%)";
-            hide(rightHider);
-            hide(leftHider);
+            // hide(rightHider);
+            // hide(leftHider);
             bookPosition = 0;
             break;
         case 1:
             book.style.transform = "translateX(100%)";
-            hide(leftHider);
-            show(rightHider);
+            // hide(leftHider);
+            // show(rightHider);
             bookPosition = 1;
             break;
         case 2:
             book.style.transform = "translateX(0%)";
-            hide(rightHider);
-            show(leftHider);
+            // hide(rightHider);
+            // show(leftHider);
             bookPosition = 2;
             break;
         case 0:
             book.style.transform = "translateX(100%)";
-            hide(rightHider);
-            hide(leftHider);
+            // hide(rightHider);
+            // hide(leftHider);
             bookPosition = 3;
             break;
         default:
@@ -398,18 +399,18 @@ function bookMovement(bookPos){
 }
 
 //hides the hider passed in argument, basically showing the content of the page at a slight delay
-function hide(page){
-    page.style.visibility ="hidden";
-}
+// function hide(page){
+//     page.style.visibility ="hidden";
+// }
 
 //shows the hider passed in argument, hiding the content of the page at a slight delay
-function show(page){
-    page.style.visibility = "visible";
-}
+// function show(page){
+//     page.style.visibility = "visible";
+// }
 
 //returns the content on the current page back to a hidden off screen container, this is to avoid keeping it on the page in case the page is assigned different content
 function returnContent(num){
-    console.log(`returning index ${num}`);
+    //console.log(`returning index ${num}`);
     pageContent = contentArray[num];
     contentReserve.appendChild(pageContent);
     pageContent.classList.add("hid", "fixed-Bottom");
@@ -417,10 +418,10 @@ function returnContent(num){
 
 //places the content chosen by decide content on the front of the current page
 function assignContentFront(num){
-    console.log(`assigning index ${num}`);
+    //console.log(`assigning index ${num}`);
     pageContent = contentArray[num];
     // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
-    // console.log(pageContent);
+    // //console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .front");
     currentPaperContent = currentPage.querySelector(":scope > .front-content");
     currentPaperContent.appendChild(pageContent);
@@ -429,10 +430,10 @@ function assignContentFront(num){
 
 //places the content chosen by decide content on the back of the current page
 function assignContentBack(num){
-    console.log(`assigning index ${num}`);
+    //console.log(`assigning index ${num}`);
     pageContent = contentArray[num];
     // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
-    // console.log(pageContent);
+    // //console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .back");
     currentPaperContent = currentPage.querySelector(":scope > .back-content");
     currentPaperContent.appendChild(pageContent);
@@ -503,10 +504,10 @@ function decideContent(){
             }
             break;
         case 9:
-            if(livedAlone){
+            if(livedAlone === 1){
                 contentIndex = 17;
                 surveyState = 11;
-            }else{
+            }else if(livedAlone === -1){
                 contentIndex = 16;
                 surveyState = 10;
             }
@@ -686,10 +687,10 @@ function undoContent(){
             if(ageNumber<18){
                 contentIndex= 19;
                 surveyState = 27;
-            }else if(livedAlone){
+            }else if(livedAlone === 1){
                 contentIndex= 17;
                 surveyState = 11;
-            }else if(!livedAlone){
+            }else if(livedAlone === -1){
                 contentIndex= 16;
                 surveyState = 10;
             }
@@ -873,7 +874,7 @@ function setAge(){
 
 function setParents(){
     if(ageNumber< 18){
-        parents = parentsUASlider.value;
+        parents = parseInt(parentsUASlider.value) ;
         if(parents>1){
             uaParentsNumber.innerHTML = "both parents";
         }else if(parents == 1){
@@ -882,7 +883,7 @@ function setParents(){
             uaParentsNumber.innerHTML = "no parents";
         }
     }else{
-        parents = parentsSlider.value;
+        parents = parseInt(parentsSlider.value);
         if(parents>1){
             aParentsNumber.innerHTML = "both parents";
         }else if(parents == 1){
@@ -895,7 +896,7 @@ function setParents(){
  
 function setSiblings(){
     if(ageNumber< 18){
-        siblings = siblingsUASlider.value;
+        siblings = parseInt(siblingsUASlider.value);
         if(siblings>1){
             uaSiblingsNumber.innerHTML = `${siblings} siblings`;
         }else if(siblings == 1){
@@ -904,7 +905,7 @@ function setSiblings(){
             uaSiblingsNumber.innerHTML = "no siblings";
         }
     }else{
-        siblings = siblingsSlider.value;
+        siblings = parseInt(siblingsSlider.value);
         if(siblings>1){
             aSiblingsNumber.innerHTML = `${siblings} siblings`;
         }else if(siblings == 1){
@@ -913,12 +914,12 @@ function setSiblings(){
             aSiblingsNumber.innerHTML = "no siblings";
         }
     }
-    console.log(siblings);
+    //console.log(siblings);
 }
  
 function setRelatives(){
     if(ageNumber< 18){
-        relatives = relativesUASlider.value;
+        relatives = parseInt(relativesUASlider.value);
         if(relatives>1){
             uaRelativesNumber.innerHTML = `${relatives} relatives`;
         }else if(relatives == 1){
@@ -927,7 +928,7 @@ function setRelatives(){
             uaRelativesNumber.innerHTML = "no relatives";
         }
     }else{
-        relatives = relativesSlider.value;
+        relatives = parseInt(relativesSlider.value);
         if(relatives>1){
             aRelativesNumber.innerHTML = `${relatives} relatives`;
         }else if(relatives == 1){
@@ -936,12 +937,12 @@ function setRelatives(){
             aRelativesNumber.innerHTML = "no relatives";
         }
     }
-    console.log(relatives);
+    //console.log(relatives);
 }
  
 function setPets(){
     if(ageNumber< 18){
-        pets = petsUASlider.value;
+        pets = parseInt(petsUASlider.value);
         if(pets > 1){
             uaPetsNumber.innerHTML = `${pets} pets`;
         }else if(pets == 1){
@@ -949,8 +950,8 @@ function setPets(){
         }else{
             uaPetsNumber.innerHTML = "no pets";
         }
-    }else if(livedAlone){
-        pets = petsAloneSlider.value;
+    }else if(livedAlone === 1){
+        pets = parseInt(petsAloneSlider.value);
         if(pets > 1){
             soloPetsText.innerHTML = `I have ${pets} pets`;
         }else if(pets == 1){
@@ -959,7 +960,7 @@ function setPets(){
             soloPetsText.innerHTML = "I have no pets";
         }
     }else{
-        pets = petsSlider.value;
+        pets = parseInt(petsSlider.value);
         if(pets > 1){
             aPetsNumber.innerHTML = `${pets} pets`;
         }else if(pets == 1){
@@ -968,21 +969,21 @@ function setPets(){
             aPetsNumber.innerHTML = "no pets";
         }
     }
-    console.log(pets);
+    //console.log(pets);
 }
  
 function setRomPartner(){
-    romanticPartner = romPartnerSlider.value;
+    romanticPartner = parseInt(romPartnerSlider.value);
     if(romanticPartner == 1){
         romanticPartnerNumber.innerHTML = "a romantic partner";
     }else{
         romanticPartnerNumber.innerHTML = "no romantic partners";
     }
-    console.log(romanticPartner);
+    //console.log(romanticPartner);
 }
 
 function setChildren(){
-    children = childrenSlider.value;
+    children = parseInt(childrenSlider.value);
     if(children>1){
         childrenNumber.innerHTML = `${children} children`;
     }else if(children == 1){
@@ -990,11 +991,11 @@ function setChildren(){
     }else{
         childrenNumber.innerHTML = "no children"
     }
-    console.log(children);
+    //console.log(children);
 }
  
 function setRoommates(){
-    roommates = roommatesSlider.value;
+    roommates = parseInt(roommatesSlider.value);
     if(roommates>1){
         roommatesNumber.innerHTML = `${roommates} roommates`;
     }else if(roommates == 1){
@@ -1002,25 +1003,31 @@ function setRoommates(){
     }else{
         roommatesNumber.innerHTML = "no roommates"
     }
-    console.log(roommates);
+    //console.log(roommates);
 }
 
 function setIsolation(){
-    isolation = isolationSlider.value;
+    isolation = parseInt(isolationSlider.value);
     isolationText.innerHTML = `${isolation}/5`;
-    console.log(isolation);
+    setRiskIndex();
+    //console.log(isolation);
 }
 
 function setSocialStatus(){
-    socialCircle = socialStatus.value;
+    socialCircle = parseInt(socialStatus.value);
     if(socialCircle>=4){
         socCircleText.innerHTML = "Despite the pandemic, I maintained a well established social circle";
-    }else if(socialCircle>=2){
-        socCircleText.innerHTML = "Despite the pandemic, I maintained a decent social circle";
-    }else{
+    }else if(socialCircle === 3){
+        socCircleText.innerHTML = "My social circle wasn't affected by the pandemic";
+    }else if(socialCircle === 2){
+        socCircleText.innerHTML = "My social circle suffered during the pandemic"
+    }else if(socialCircle === 1){
         socCircleText.innerHTML = "My social circle crumbled during the pandemic"
+    }else if(socialCircle === 0){
+        socCircleText.innerHTML = "I had no social circle during the pandemic"
     }
-    console.log(socialCircle);
+    setRiskIndex();
+    //console.log(socialCircle);
 }
 
 function setIntrovertStatusStudent(){
@@ -1035,7 +1042,7 @@ function setIntrovertStatusStudent(){
             }
         }
     }
-    console.log(introvert);
+    //console.log(introvert);
 }
 
 function setIntrovertStatus(){
@@ -1050,7 +1057,7 @@ function setIntrovertStatus(){
             }
         }
     }
-    console.log(introvert);
+    //console.log(introvert);
 }
 
 function setWFHStatus(){
@@ -1065,7 +1072,7 @@ function setWFHStatus(){
         }
 
     }
-    console.log(workingFromHome);
+    //console.log(workingFromHome);
 }
 
 function setRemoteClasses(){
@@ -1080,9 +1087,84 @@ function setRemoteClasses(){
         }
 
     }
-    console.log(remoteClassesStat);
+    //console.log(remoteClassesStat);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
+//risk index calculations
+//the way the calculation is made is as follows, 
+//for introverts:
+//  being an introvert +1
+//  working from home or remote classes -1 each (since introverts prefer that)
+//  if living partners are less than 5 it's -1 for each, as that is more social interaction for them
+// if living partners are more than 5 it's +1 for each one over 5 as that is too many people for comfort
+//  finally for introverts, if the person is working or studying from home and the living partners number is less than or equals to 1 it would be +3 risk. During my research I discovered that the biggest risk for introverts is that they find it difficult to maintain social interaction when they don't have to thus I believe this would be a considerable risk factor
+//  being an extrovert -1
+//  working from home or remote classes +1 each
+//  if living partners > 1 -1 each, else +2
+//for both
+//  -0.5 per pet
+//  +1 if lost job cause of the pandemic
+//  -1 if did not lose job (I chose to do it this way because in stress and uncertainty something as simple as keeping one's job can be a relief)
+//  -1 if was able to find another job
+//  if social circle is 4, 5 or 6 it's +1, +2 or +3 if 3 it's 0 if 2-0 it's +1, +2 or +3
+//  +1 for each level on the isolation slider
+//  these numbers were decided based on the expected outcome of each situation, they are meant to divide users into 4 categories, users under -3 are managing the pandemic pretty well without much risk at all, users between -3 and 0 are okay, their social life might have been impacted by the pandemic but they are at no real risk. users between 0 and 3 are at a slight risk, they should try raching out others and reintegrating some social interaction in their lives, users at 4+ are at a high risk and should definitely seek help. There is of course a margin of error which will be indicated to users.
+function setRiskIndex(){
+    riskIndex = 0;
+    let livingPartners = parents+siblings+relatives+roommates+romanticPartner+children;
+    if(introvert){
+        riskIndex = 1;
+        riskIndex -= workingFromHome;
+        riskIndex -= remoteClassesStat;
+        if(livedAlone != 0){
+            if(livingPartners>5){
+                livingPartners-=5;
+                riskIndex+=livingPartners;
+            }else if (livingPartners>1){
+                riskIndex -= livingPartners;
+            }else if (workingFromHome=== 1||remoteClasses === 1 &&livingPartners<=1){
+                riskIndex +=3
+            }else if(prePandJob === false|| studentStatus === false && livingPartners<1){
+                riskIndex+=3;
+            }
+        }
+
+    }else{
+        riskIndex= -1;
+        riskIndex += workingFromHome;
+        riskIndex += remoteClassesStat;
+        if(livedAlone !=0){
+            if(livingPartners> 1){
+                riskIndex -= livingPartners;
+            }else{
+                riskIndex+= 2;
+            }
+        }
+    }
+    if(essentialWorker){
+        riskIndex-=1;
+    }
+    riskIndex-= pets/2;
+    riskIndex+= lostJob;
+    riskIndex+= 3-socialCircle;
+    riskIndex+= isolation;
+
+    if(riskIndex>4){
+        document.documentElement.style.setProperty('--fontFam', 'var(--JoFont)');
+        imageMod = 3;
+    }else if(riskIndex>1)
+    {
+        document.documentElement.style.setProperty('--fontFam', 'var(--Reis)');
+        imageMod = 2;
+    }else{
+        document.documentElement.style.setProperty('--fontFam', 'var(--IndieFlower)');
+        imageMod = 1;
+    }
+    modifyImages();
+    // console.log(isolation);
+    // console.log(riskIndex);
+}
+
 //theme modification as per risk index
 
 //this function replaces every images src from "assets/images/name-#.png" to `assets/images/name-${imageMod}.png` then refreshes the image. This allows for images to be modified as per the rist index.
@@ -1096,6 +1178,6 @@ function modifyImages(){
         source = source.replace(/3.png/g, `${imageMod}.png`);
         // source = source + "#";
         element.src = source;
-        // console.log(edittedSource2);
+        // //console.log(edittedSource2);
     });
 }
