@@ -71,7 +71,7 @@ input[type=radio] {
    text-align: center;
 }
 .contents img{
-   width: 70%;
+   width: 50%;
 }
 #user-name{
    font-family: var(--fontFam);
@@ -336,6 +336,9 @@ input[type=radio] {
    border-top: solid 1px transparent;
  }
 
+i{
+   font-size: 25px;
+}
 
  @media (min-width: 600px){
     body{
@@ -349,7 +352,7 @@ input[type=radio] {
       perspective: 2000px;
    }
    .contents img{
-      width: 60%;
+      width: 45%;
    }
    #normalTextContainer{
       width: 40%;
