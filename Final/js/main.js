@@ -285,6 +285,7 @@ function goNextPage() {
             moveBook();
             decideContent();
             papers[currentPaper].classList.add("flipped");
+            console.log("flipped");
             assignContentBack(contentIndex);
         }
         reorderPapers();
@@ -1123,8 +1124,27 @@ function modifyImages(){
 
 //reveal results button
 function endSurvey(){
-    let results = document.createElement('p')
-    results.innerHTML = `Your result is ${riskIndex}`;
+    let results = document.createElement('h1');
+    let resultNumber = document.createElement('h3');
+    let resultOutcome = document.createElement('p');
+    results.classList.add('resultTitle');
+    results.innerHTML = `Your result is `;
+    resultNumber.innerHTML = `${riskIndex}`;
+    resultOutcome.classList.add('resultOutcome');
+    if(riskIndex>4){
+        resultOutcome.innerHTML = "You're definitely isolated, or at least you feel that way. While it is hard to even know where to start from a situation that seems as bleak as you feel about yours, it's never too late to start trying to reintegrate people into your life. Start with small steps like greeting a cashier or a waiter at a restaurant, reach out to friends or relatives you haven't spoken to in a while. If you're completely unable to take those first steps seek professional help. Whether or not you think you're comfortable in your solitude, humans need social interaction to thrive so don't deny yourself the opportunity to experience the joy that is human company.";
+    }else if(riskIndex>1){
+        resultOutcome.innerHTML = "You are definitely on the lower end of sociability, it could have been purely pandemic related or you're perhaps naturally less comfortable with maintaining social relations with people. Eitherway, you should definitely start seeking people out. Introverts live a society that doesn't understand their needs and it becomes hard for them to recognize that they need others more than they think they do.";
+    }else if(riskIndex>-4){
+        resultOutcome.innerHTML = "You were affected by the pandemic, but you're still able to get your needed dose of interacting with others. While you could probably use some more of that, your situation is far from bleak. Given time you'll be able to rebuild your pre-pandemic relations and help others who were affected by the pandemic worse than you were.";
+    }else if(riskIndex<-4){
+        resultOutcome.innerHTML = "You were not impacted too hard by the pandemic in terms of social interaction. You might have lost some opportunities of interacting with others, but you were still able to get the plenty of social interaction from your social circle. If you're not already, try to help others who are less adept at seeking people out by sharing some of your sociability with them.";
+    }
     contentArray[21].appendChild(results);
+    contentArray[21].appendChild(resultNumber);
+    contentArray[21].appendChild(resultOutcome);
+    contentArray[21].appendChild(nextPageButtonBox);
     nextPageButtonBox.classList.remove('hid');
+    nextPageButtonBox.classList.remove('fixed-Bottom');
+
 }

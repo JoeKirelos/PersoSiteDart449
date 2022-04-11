@@ -290,13 +290,27 @@ input[type=radio] {
    font-size: 24px;
 }
 
-#nextPageButtonBox{
+#content21{
    font-family: Helvetica, sans-serif;
-   position: absolute;
-   bottom: 3%;
-   right: 5%;
-   text-align: center;
 }
+
+.resultTitle{
+   font-family: var(--fontFam);
+   margin: 5%;
+}
+
+.resultOutcome{
+   font-size: 16px;
+   margin-bottom: 5%;
+   line-height: 16px;
+}
+
+#nextPageButtonBox{
+   text-align: center;
+   font-size: 14px;
+   line-height: 14px;
+}
+
 #nextPage a{
    color: #000; 
    text-decoration: none;
@@ -308,8 +322,11 @@ input[type=radio] {
    color: #000;
 }
 
-#content21{
-   font-family: Helvetica, sans-serif;
+
+.resultOutcome{
+   font-size: 14px;
+   margin-bottom: 5%;
+   line-height: 12px;
 }
 
 .navBar{
@@ -348,12 +365,15 @@ i{
       width: 35%;
       height: 80%;
    }
+
    .paper {
       perspective: 2000px;
    }
+
    .contents img{
       width: 45%;
    }
+
    #normalTextContainer{
       width: 40%;
       height: 80%;
@@ -361,8 +381,21 @@ i{
       padding: 2%;
       top: 10%;
    }
+
    .navBar li{
       float: left;
       padding: 0% 5%;
     }
+
+    .resultOutcome{
+      font-size: 18px;
+      margin-bottom: 5%;
+      line-height: 18px;
+   }
+   
+   #nextPageButtonBox{
+      font-size: 16px;
+      line-height: 16px;
+   }
+    
  }
