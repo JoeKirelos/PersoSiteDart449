@@ -992,6 +992,13 @@ function setIsolation(){
 
 function setSocialStatus(){
     socialCircle = socialStatus.value;
+    if(socialCircle>=4){
+        socCircleText.innerHTML = "Despite the pandemic, I maintained a well established social circle";
+    }else if(socCircle>=2){
+        socCircleText.innerHTML = "Despite the pandemic, I maintained a decent social circle";
+    }else{
+        socCircleText.innerHTML = "My social circle crumbled during the pandemic"
+    }
     console.log(socialCircle);
 }
 
