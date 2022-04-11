@@ -1,17 +1,12 @@
 //Portions of this code were adapted from https://github.com/codingstar-jason/3D-Book-Tutorial-Basic-CodingStar for the flipbook effect
+//Note: this code went through a lot of modification and debugging, in some cases some of the comments would refer to functionality that was later removed or moved elsewhere, please disregard those
 //References to Doc Elements
 //progression buttons
 const prevBtn = document.querySelector("#prev-btn");
 const nextBtn = document.querySelector("#next-btn");
-// const testBtn = document.querySelector("#testBtn");
-// const test2Btn = document.querySelector("#test2Btn");
 
 const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
-
-//used to hide content(questions) on previous and following pages
-// const leftHider = document.querySelector("#hideContentLeft");
-// const rightHider = document.querySelector("#hideContentRight");
 
 const contentReserve = document.querySelector('#contentReserve');//off screen container that holds content not currently being used
 let contentArray = document.querySelectorAll(".contents"); //array to hold content(questions)
@@ -125,23 +120,15 @@ let relativesUASlider = document.querySelector('#relativesUA');
 const uaRelativesNumber = document.querySelector('#uaRelativesNumber');
 let petsUASlider = document.querySelector('#petsUA');
 const uaPetsNumber = document.querySelector('#uaPetsNumber');
+// button to go to the analysis of the survey results
+const nextPageButtonBox = document.querySelector('#nextPageButtonBox');
 ////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////Event Listeners///////////////////////////////////////
 //progression buttons
 prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
-// testBtn.addEventListener("click", modifyImages);
-// test2Btn.addEventListener("click", function(){
-//     if(imageMod === 1){
-//         imageMod = 2;
-//     }else if(imageMod ===2){
-//         imageMod = 3;
-//     }else{
-//         imageMod = 1;
-//     }
-//     //console.log(imageMod);
-// });
+
 //age slider
 ageSlider.addEventListener("touchend", setAge);
 ageSlider.addEventListener("mouseup", setAge);
@@ -152,67 +139,55 @@ ageSlider.addEventListener("mouseup", setAge);
 studentYBtn.addEventListener("click", function(){
     studentStatus = true;
     studentText.innerHTML = "During Covid I was a student";
-    //console.log(studentStatus);
 });
 studentNBtn.addEventListener("click", function(){
     studentStatus = false;
     studentText.innerHTML = "During Covid I wasn't a student";
-    //console.log(studentStatus);
 });
 //job before pandemic buttons
 prePandJobN.addEventListener("click", function (){
     prePandJob = false;
     prePandJobText.innerHTML = "I didn't have a job before the pandemic";
-    //console.log(prePandJob);
 });
 prePandJobY.addEventListener("click", function (){
     prePandJob = true;
     prePandJobText.innerHTML = "When the pandemic started I had a job";
-    //console.log(prePandJob);
 });
 //essential worker buttons 
 essWorkerN.addEventListener("click", function(){
     essentialWorker= false;
     essWorkerText.innerHTML = "I wasn't an essential worker";
-    //console.log(essentialWorker);
 });
 essWorkerY.addEventListener("click", function(){
     essentialWorker= true;
     essWorkerText.innerHTML = "I was an essential worker";
-    //console.log(essentialWorker);
 });
 //lost Job due to Pandemic buttons
 lostJobN.addEventListener("click", function(){
     lostJob = -1;
     lostJobText.innerHTML = "When the pandemic started I kept my job";
-    //console.log(lostJob);
 });
 lostJobY.addEventListener("click", function(){
     lostJob= 1;
     lostJobText.innerHTML = "I lost my job because of the pandemic";
-    //console.log(lostJob);
 });
 //retired buttons
 retiredN.addEventListener("click", function(){
     retired= false;
     retiredText.innerHTML = "I didn't retire during the pandemic";
-    //console.log(retired);
 });
 retiredY.addEventListener("click", function(){
     retired= true;
     retiredText.innerHTML = "I have retired during the pandemic";
-    //console.log(retired);
 });
 //found another job buttons
 foundNewJobN.addEventListener("click", function(){
     foundNewJob= -1;
     foundNewJobText.innerHTML = "I wasn't able to find another job";
-    //console.log(foundNewJob);
 });
 foundNewJobY.addEventListener("click", function(){
     foundNewJob= 1;
     foundNewJobText.innerHTML = "I was able to find another job";
-    //console.log(foundNewJob);
 });
 //social circle slider
 socialStatus.addEventListener("touchend", setSocialStatus);
@@ -221,12 +196,10 @@ socialStatus.addEventListener("mouseup", setSocialStatus);
 livedAloneN.addEventListener("click", function(){
     livedAlone= -1;
     livedAloneText.innerHTML = "I didn't live alone during the pandemic";
-    //console.log(livedAlone);
 });
 livedAloneY.addEventListener("click", function(){
     livedAlone= 1;
     livedAloneText.innerHTML = "During the pandemic I lived alone";
-    //console.log(livedAlone);
 });
 //living partners sliders
 parentsSlider.addEventListener("touchend", setParents); 
@@ -268,12 +241,10 @@ isolationSlider.addEventListener("mouseup", setIsolation);
 //radio buttons event listeners
 remoteClasses.forEach(element => {
     element.addEventListener("click", setRemoteClasses);
-
 });
 
 studentIntExtRadio.forEach(element => {
     element.addEventListener("click", setIntrovertStatusStudent);
-
 });
 
 radioIntExt.forEach(element => {
@@ -317,7 +288,6 @@ function goNextPage() {
             assignContentBack(contentIndex);
         }
         reorderPapers();
-        //console.log(`state = ${surveyState}`);
     }
     setRiskIndex();
 }
@@ -341,13 +311,11 @@ function goPrevPage() {
             currentPaper--;
         }
         reorderPapers();
-        //console.log(`state = ${surveyState}`);
     }  
 }
 
 //reassigns the zIndex of all the papers so that the paper currently focused is always visible and ineractable
 function reorderPapers(){
-    // //console.log(papers[currentPaper]);
     papers.forEach(element => {
         element.style.zIndex = 1;
     });
@@ -356,7 +324,6 @@ function reorderPapers(){
 
 //default book positioning behavior, if it's focusing left focus right and vice versa
 function moveBook(){
-    // //console.log(bookPosition);
     if(bookPosition===1){
         bookPosition = 2;
         bookMovement(bookPosition);
@@ -366,31 +333,23 @@ function moveBook(){
     }
 }
 
-//switches the position of the book to be in line with the focused page as well as call the functions for the appropriate hiders
+//switches the position of the book to be in line with the focused page
 function bookMovement(bookPos){
     switch(bookPos){
         case 3:
             book.style.transform = "translateX(0%)";
-            // hide(rightHider);
-            // hide(leftHider);
             bookPosition = 0;
             break;
         case 1:
             book.style.transform = "translateX(100%)";
-            // hide(leftHider);
-            // show(rightHider);
             bookPosition = 1;
             break;
         case 2:
             book.style.transform = "translateX(0%)";
-            // hide(rightHider);
-            // show(leftHider);
             bookPosition = 2;
             break;
         case 0:
             book.style.transform = "translateX(100%)";
-            // hide(rightHider);
-            // hide(leftHider);
             bookPosition = 3;
             break;
         default:
@@ -398,19 +357,8 @@ function bookMovement(bookPos){
     }
 }
 
-//hides the hider passed in argument, basically showing the content of the page at a slight delay
-// function hide(page){
-//     page.style.visibility ="hidden";
-// }
-
-//shows the hider passed in argument, hiding the content of the page at a slight delay
-// function show(page){
-//     page.style.visibility = "visible";
-// }
-
 //returns the content on the current page back to a hidden off screen container, this is to avoid keeping it on the page in case the page is assigned different content
 function returnContent(num){
-    //console.log(`returning index ${num}`);
     pageContent = contentArray[num];
     contentReserve.appendChild(pageContent);
     pageContent.classList.add("hid", "fixed-Bottom");
@@ -418,10 +366,7 @@ function returnContent(num){
 
 //places the content chosen by decide content on the front of the current page
 function assignContentFront(num){
-    //console.log(`assigning index ${num}`);
     pageContent = contentArray[num];
-    // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
-    // //console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .front");
     currentPaperContent = currentPage.querySelector(":scope > .front-content");
     currentPaperContent.appendChild(pageContent);
@@ -430,10 +375,7 @@ function assignContentFront(num){
 
 //places the content chosen by decide content on the back of the current page
 function assignContentBack(num){
-    //console.log(`assigning index ${num}`);
     pageContent = contentArray[num];
-    // pageContent = Array.from(contentArray).find(x => x.id === `content${num}`); //can probably just be contentArray[questionIndex]
-    // //console.log(pageContent);
     let currentPage = papers[currentPaper].querySelector(":scope > .back");
     currentPaperContent = currentPage.querySelector(":scope > .back-content");
     currentPaperContent.appendChild(pageContent);
@@ -485,12 +427,10 @@ function decideContent(){
             }
             break;
         case 5:
-            // setIntrovertStatusStudent();
             contentIndex = 6;
             surveyState = 6;
             break;
         case 6:
-            // setRemoteClasses();
             contentIndex = 8;
             surveyState = 7;
             break;
@@ -517,9 +457,10 @@ function decideContent(){
             surveyState = 12;
             break;
         case 12:
-            contentIndex = 20;
+            contentIndex = 21;
             bookEnded = true;
             surveyState = 29;
+            endSurvey();
             break;
         case 13:
             if(lostJob === 1){
@@ -531,7 +472,6 @@ function decideContent(){
             }
             break;
         case 14:
-            // setWFHStatus();
             if(ageNumber<18){
                 contentIndex = 14;
                 surveyState = 26;
@@ -550,17 +490,14 @@ function decideContent(){
             }
             break;
         case 16:
-            // setIntrovertStatus();
             contentIndex = 4;
             surveyState = 19;
             break;
         case 17:
-            // setIntrovertStatus();
             contentIndex = 8;
             surveyState = 21;
             break;
         case 18:
-            // setIntrovertStatus();
             contentIndex = 11;
             surveyState = 25;
             break;
@@ -677,6 +614,11 @@ function undoContent(){
                 contentIndex= 13;
                 surveyState = 14;
             }
+            break;
+        case 9:
+            livedAlone = 0;
+            contentIndex = 14
+            surveyState = 8;
             break;
         case 11:
             contentIndex= 15;
@@ -842,7 +784,7 @@ function addPaper(){
     numOfPages = papers.length;
 }
 
-///////////////////////functions that keep track of user input during the survery///////////////////
+///////////////////////functions that keep track of user input during the survery//////////////////
 
 function setUserName(){
     userName = nameBox.value;
@@ -854,21 +796,17 @@ function setAge(){
     ageOutput.innerHTML = `Right I'm ${userName} and I'm ${ageNumber} years old`;
     if(ageNumber< 13){
         ageBracket = "A";
-        // ageImage.src = "assets/images/Age-A-PH.png"
     }else if (ageNumber < 18){
         ageBracket = "B";
-        // ageImage.src = "assets/images/Age-B-PH.png"
     }else if (ageNumber < 28){
         ageBracket = "C";
-        // ageImage.src = "assets/images/Age-C-PH.png"
     }else if (ageNumber < 60){
         ageBracket = "D";
-        // ageImage.src = "assets/images/Age-D-PH.png"
     }else if (ageNumber >= 60){
         ageBracket = "E";
-        // ageImage.src = "assets/images/Age-E-PH.png"
     }
     ageImage.src =`assets/images/age-${ageBracket}-${imageMod}.png`;
+    setRiskIndex();
 }
 
 
@@ -892,6 +830,7 @@ function setParents(){
             aParentsNumber.innerHTML = "no parents";
         }
     }
+    setRiskIndex();
 }
  
 function setSiblings(){
@@ -914,7 +853,7 @@ function setSiblings(){
             aSiblingsNumber.innerHTML = "no siblings";
         }
     }
-    //console.log(siblings);
+    setRiskIndex();
 }
  
 function setRelatives(){
@@ -937,7 +876,7 @@ function setRelatives(){
             aRelativesNumber.innerHTML = "no relatives";
         }
     }
-    //console.log(relatives);
+    setRiskIndex();
 }
  
 function setPets(){
@@ -969,7 +908,7 @@ function setPets(){
             aPetsNumber.innerHTML = "no pets";
         }
     }
-    //console.log(pets);
+    setRiskIndex();
 }
  
 function setRomPartner(){
@@ -979,7 +918,7 @@ function setRomPartner(){
     }else{
         romanticPartnerNumber.innerHTML = "no romantic partners";
     }
-    //console.log(romanticPartner);
+    setRiskIndex();
 }
 
 function setChildren(){
@@ -991,7 +930,7 @@ function setChildren(){
     }else{
         childrenNumber.innerHTML = "no children"
     }
-    //console.log(children);
+    setRiskIndex();
 }
  
 function setRoommates(){
@@ -1003,14 +942,13 @@ function setRoommates(){
     }else{
         roommatesNumber.innerHTML = "no roommates"
     }
-    //console.log(roommates);
+    setRiskIndex();
 }
 
 function setIsolation(){
     isolation = parseInt(isolationSlider.value);
     isolationText.innerHTML = `${isolation}/5`;
     setRiskIndex();
-    //console.log(isolation);
 }
 
 function setSocialStatus(){
@@ -1027,7 +965,6 @@ function setSocialStatus(){
         socCircleText.innerHTML = "I had no social circle during the pandemic"
     }
     setRiskIndex();
-    //console.log(socialCircle);
 }
 
 function setIntrovertStatusStudent(){
@@ -1040,9 +977,9 @@ function setIntrovertStatusStudent(){
                 introvert = false;
                 introStudentText.innerHTML = "During lunch at school you'd likely find me hanging out with friends";
             }
+            setRiskIndex();
         }
     }
-    //console.log(introvert);
 }
 
 function setIntrovertStatus(){
@@ -1055,9 +992,9 @@ function setIntrovertStatus(){
                 introvert = false;
                 introAdultText.innerHTML = "At a party you'd likely find me dancing/drinking with others";
             }
+            setRiskIndex();
         }
     }
-    //console.log(introvert);
 }
 
 function setWFHStatus(){
@@ -1069,10 +1006,10 @@ function setWFHStatus(){
             }else if (workingFromHome === -1){
                 wfhText.innerHTML = "During the pandemic I had to work in person";
             }
+            setRiskIndex();
         }
 
     }
-    //console.log(workingFromHome);
 }
 
 function setRemoteClasses(){
@@ -1084,10 +1021,10 @@ function setRemoteClasses(){
             }else if (remoteClassesStat === -1){
                 remoteClassesText.innerHTML = "During the pandemic I had to attend my classes in person";
             }
+            setRiskIndex();
         }
 
     }
-    //console.log(remoteClassesStat);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 //risk index calculations
@@ -1127,6 +1064,7 @@ function setRiskIndex(){
             }else if(prePandJob === false|| studentStatus === false && livingPartners<1){
                 riskIndex+=3;
             }
+            console.log('living calced');
         }
 
     }else{
@@ -1139,6 +1077,7 @@ function setRiskIndex(){
             }else{
                 riskIndex+= 2;
             }
+            console.log('living calced');
         }
     }
     if(essentialWorker){
@@ -1149,23 +1088,24 @@ function setRiskIndex(){
     riskIndex+= 3-socialCircle;
     riskIndex+= isolation;
 
+    //theme modification as per risk index
     if(riskIndex>4){
         document.documentElement.style.setProperty('--fontFam', 'var(--JoFont)');
+        document.documentElement.style.setProperty('--backgroundSize', '10px');
         imageMod = 3;
     }else if(riskIndex>1)
     {
         document.documentElement.style.setProperty('--fontFam', 'var(--Reis)');
+        document.documentElement.style.setProperty('--backgroundSize', '30px');
         imageMod = 2;
     }else{
         document.documentElement.style.setProperty('--fontFam', 'var(--IndieFlower)');
+        document.documentElement.style.setProperty('--backgroundSize', '40px');
         imageMod = 1;
     }
     modifyImages();
-    // console.log(isolation);
-    // console.log(riskIndex);
+    console.log(riskIndex);
 }
-
-//theme modification as per risk index
 
 //this function replaces every images src from "assets/images/name-#.png" to `assets/images/name-${imageMod}.png` then refreshes the image. This allows for images to be modified as per the rist index.
 function modifyImages(){
@@ -1176,8 +1116,15 @@ function modifyImages(){
         source = source.replace(/1.png/g, `${imageMod}.png`);
         source = source.replace(/2.png/g, `${imageMod}.png`);
         source = source.replace(/3.png/g, `${imageMod}.png`);
-        // source = source + "#";
         element.src = source;
-        // //console.log(edittedSource2);
     });
+}
+
+
+//reveal results button
+function endSurvey(){
+    let results = document.createElement('p')
+    results.innerHTML = `Your result is ${riskIndex}`;
+    contentArray[21].appendChild(results);
+    nextPageButtonBox.classList.remove('hid');
 }
