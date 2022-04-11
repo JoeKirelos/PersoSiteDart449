@@ -169,13 +169,13 @@ essWorkerY.addEventListener("click", function(){
 });
 //lost Job due to Pandemic buttons
 lostJobN.addEventListener("click", function(){
-    lostJob = false;
-    lostJobText = "When the pandemic started I kept my job";
+    lostJob = -1;
+    lostJobText.innerHTML = "When the pandemic started I kept my job";
     console.log(lostJob);
 });
 lostJobY.addEventListener("click", function(){
-    lostJob= true;
-    lostJobText = "I lost my job because of the pandemic";
+    lostJob= 1;
+    lostJobText.innerHTML = "I lost my job because of the pandemic";
     console.log(lostJob);
 });
 //retired buttons
@@ -507,7 +507,7 @@ function decideContent(){
             surveyState = 29;
             break;
         case 13:
-            if(lostJob){
+            if(lostJob === 1){
                 contentIndex = 12;
                 surveyState = 15;
             }else{
@@ -581,7 +581,7 @@ function decideContent(){
             }
             break;
         case 23:
-            if(lostJob){
+            if(lostJob === 1){
                 contentIndex = 12;
                 surveyState = 24;
             }else {
@@ -681,12 +681,13 @@ function undoContent(){
             }
             break;
         case 13:
+            lostJob = 0;
             contentIndex= 8;
             surveyState = 7;
             break;
         case 14:
             if(ageNumber<18){
-                if(!lostJob){
+                if(lostJob === -1){
                     contentIndex= 10;
                     surveyState = 13;
                 }else{
@@ -697,7 +698,7 @@ function undoContent(){
                     if(essentialWorker){
                         contentIndex= 9;
                         surveyState = 22;
-                    }else if(!lostJob){
+                    }else if(lostJob === -1){
                         contentIndex= 10;
                         surveyState = 23;
                     }else if(foundNewJob === 1){
@@ -745,6 +746,11 @@ function undoContent(){
                 contentIndex= 11;
                 surveyState = 25;
             }
+            break;
+        case 23:
+            lostJob = 0;
+            contentIndex = 9;
+            surveyState = 22;
             break;
         case 24:
             foundNewJob = 0;
@@ -847,7 +853,7 @@ function setAge(){
         ageBracket = "E";
         // ageImage.src = "assets/images/Age-E-PH.png"
     }
-    ageImage.src =`../assets/images/age-${ageBracket}-${imageMod}.png`;
+    ageImage.src =`assets/images/age-${ageBracket}-${imageMod}.png`;
 }
 
 
