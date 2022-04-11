@@ -3,6 +3,8 @@
 //progression buttons
 const prevBtn = document.querySelector("#prev-btn");
 const nextBtn = document.querySelector("#next-btn");
+const testBtn = document.querySelector("#testBtn");
+const test2Btn = document.querySelector("#test2Btn");
 
 const book = document.querySelector("#book"); //book container
 let papers = document.querySelectorAll(".paper"); //papers array (let is used as more papers can be added as needed)
@@ -88,6 +90,7 @@ const wfhRadio = document.querySelectorAll('input[name="working-from-home"');
 const wfhText = document.querySelector('#wfhText');
 //social circle
 let socialStatus = document.querySelector('#socCircle');
+const socCircleText = document.querySelector('#socCircleText');
 //living situation
 const livedAloneY = document.querySelector('#lived-alone-yes');
 const livedAloneN = document.querySelector('#lived-alone-no');
@@ -112,7 +115,7 @@ let petsAloneSlider = document.querySelector('#petsAlone');
 const soloPetsText = document.querySelector('#soloPetsText');
 //isolation
 let isolationSlider = document.querySelector('#isolationSlider');
-const socCircleText = document.querySelector('#socCircleText');
+const isolationText = document.querySelector('#isolationText');
 //lived with others underAge
 let parentsUASlider = document.querySelector('#parentsUA');
 const uaParentsNumber = document.querySelector('#uaParentsNumber');
@@ -128,6 +131,17 @@ const uaPetsNumber = document.querySelector('#uaPetsNumber');
 //progression buttons
 prevBtn.addEventListener("click", goPrevPage);
 nextBtn.addEventListener("click", goNextPage);
+testBtn.addEventListener("click", modifyImages);
+test2Btn.addEventListener("click", function(){
+    if(imageMod === 1){
+        imageMod = 2;
+    }else if(imageMod ===2){
+        imageMod = 3;
+    }else{
+        imageMod = 1;
+    }
+    console.log(imageMod);
+});
 //age slider
 ageSlider.addEventListener("touchend", setAge);
 ageSlider.addEventListener("mouseup", setAge);
@@ -993,6 +1007,7 @@ function setRoommates(){
 
 function setIsolation(){
     isolation = isolationSlider.value;
+    isolationText.innerHTML = `${isolation}/5`;
     console.log(isolation);
 }
 
@@ -1000,7 +1015,7 @@ function setSocialStatus(){
     socialCircle = socialStatus.value;
     if(socialCircle>=4){
         socCircleText.innerHTML = "Despite the pandemic, I maintained a well established social circle";
-    }else if(socCircle>=2){
+    }else if(socialCircle>=2){
         socCircleText.innerHTML = "Despite the pandemic, I maintained a decent social circle";
     }else{
         socCircleText.innerHTML = "My social circle crumbled during the pandemic"
@@ -1068,3 +1083,19 @@ function setRemoteClasses(){
     console.log(remoteClassesStat);
 }
 /////////////////////////////////////////////////////////////////////////////////////////
+//theme modification as per risk index
+
+//this function replaces every images src from "assets/images/name-#.png" to `assets/images/name-${imageMod}.png` then refreshes the image. This allows for images to be modified as per the rist index.
+function modifyImages(){
+    let images = document.querySelectorAll('img');
+    images.forEach(element => {
+        let source = element.src;
+        source = source.replace(/"/g, "`");
+        source = source.replace(/1.png/g, `${imageMod}.png`);
+        source = source.replace(/2.png/g, `${imageMod}.png`);
+        source = source.replace(/3.png/g, `${imageMod}.png`);
+        // source = source + "#";
+        element.src = source;
+        // console.log(edittedSource2);
+    });
+}
