@@ -91,6 +91,7 @@ let socialStatus = document.querySelector('#socCircle');
 //living situation
 const livedAloneY = document.querySelector('#lived-alone-yes');
 const livedAloneN = document.querySelector('#lived-alone-no');
+const livedAloneText = document.querySelector('#livedAloneText');
 //lived with others
 let parentsSlider = document.querySelector('#parents');
 const aParentsNumber = document.querySelector('#aParentsNumber');
@@ -205,10 +206,12 @@ socialStatus.addEventListener("mouseup", setSocialStatus);
 //living situation
 livedAloneN.addEventListener("click", function(){
     livedAlone= false;
+    livedAloneText.innerHTML = "I didn't live alone during the pandemic";
     console.log(livedAlone);
 });
 livedAloneY.addEventListener("click", function(){
     livedAlone= true;
+    livedAloneText.innerHTML = "During the pandemic I lived alone";
     console.log(livedAlone);
 });
 //living partners sliders
