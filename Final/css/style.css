@@ -79,10 +79,18 @@ input[type=radio] {
    font-size: 22px;
    color: black;
 }
+.yBtn:focus{
+   border: 2px dashed rgb(0, 0, 0);
+   border-radius: 55% 60% 65% 50%;
+}
 .nBtn{
    font-family: var(--fontFam);
    font-size: 22px;
    color: black;
+}
+.nBtn:focus{
+   border: 2px dashed rgb(0, 0, 0);
+   border-radius: 55% 60% 65% 50%;
 }
 
 #f1{
@@ -257,6 +265,7 @@ input[type=radio] {
 
 .sliderTable{
    border: none;
+   text-align: center;
 }
 
 

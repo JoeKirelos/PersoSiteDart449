@@ -19,6 +19,7 @@ let surveyState = 0; // is used to track the survey flow chart
 ////////////////////////////init user variables//////////////////////////
 let userName;
 let riskIndex = 0; //number to decide the level of isolation of the individual and the theme adjustments of the survey
+let imageMod = 1; //image mod is used to change which version of the image is displayed, 1 is normal 2 is at mid level stress, 3 is at high level stress
 let ageNumber = 1; //initiall age number
 let studentStatus = false; //student status is initially false
 let introvert = false; //introvert status is initially false
@@ -27,6 +28,7 @@ let prePandJob = false; //binary, mostly used to determine upcoming questions
 let essentialWorker = false; //binary, used to decide if the question of losing job due to pandemic is asked or not
 let lostJob = 0; // 0 is no value or didn't have a job, -1 is if the person lost their job, 1 is if they didn't
 let foundNewJob = 0; // follow up to losing job 1 if they found one, -1 if not
+
 let retired = false; //binary to determine other questions
 let workingFromHome = 0; //same value scheme as inperson classes (1 is working from home, -1 is inoffice)
 let socialCircle = 0; //multi values question, self rated 1-5
@@ -51,29 +53,39 @@ let ageImage = document.querySelector('#ageImage');
 //student status
 const studentYBtn = document.querySelector('#student-yes');
 const studentNBtn = document.querySelector('#student-no');
+const studentText = document.querySelector('#studentText');
 //introvert vs. extrovert student
 const studentIntExtRadio = document.querySelectorAll('input[name="introvert-extrovert-student"');
+const introStudentText = document.querySelector('#introStudentText');
 //remote classes
 const remoteClasses = document.querySelectorAll('input[name="remote-classes"');
+const remoteClassesText = document.querySelector('#remoteClassesText');
 //introvert vs. extrovert
 const radioIntExt = document.querySelectorAll('input[name="introvert-extrovert"');
+const introAdultText = document.querySelector('#introAdultText');
 //pre pandemic job
 const prePandJobY = document.querySelector('#prePandJob-yes');
 const prePandJobN = document.querySelector('#prePandJob-no');
+const prePandJobText = document.querySelector('#prePandJobText');
 //essential worker
 const essWorkerY = document.querySelector('#essWorker-yes');
 const essWorkerN = document.querySelector('#essWorker-no');
+const essWorkerText = document.querySelector('#essWorkerText');
 //lost Job
 const lostJobY = document.querySelector('#lostJob-yes');
 const lostJobN = document.querySelector('#lostJob-no');
+const lostJobText = document.querySelector('#lostJobText');
 //retired
 const retiredY = document.querySelector('#retired-yes');
 const retiredN = document.querySelector('#retired-no');
+const retiredText = document.querySelector('#retiredText');
 //foundNewJob
 const foundNewJobY = document.querySelector('#foundNewJob-yes');
 const foundNewJobN = document.querySelector('#foundNewJob-no');
+const foundNewJobText = document.querySelector("#foundNewJobText");
 //work From Home
 const wfhRadio = document.querySelectorAll('input[name="working-from-home"');
+const wfhText = document.querySelector('#wfhText');
 //social circle
 let socialStatus = document.querySelector('#socCircle');
 //living situation
@@ -81,21 +93,34 @@ const livedAloneY = document.querySelector('#lived-alone-yes');
 const livedAloneN = document.querySelector('#lived-alone-no');
 //lived with others
 let parentsSlider = document.querySelector('#parents');
+const aParentsNumber = document.querySelector('#aParentsNumber');
 let siblingsSlider = document.querySelector('#siblings');
+const aSiblingsNumber = document.querySelector('#aSiblingsNumber');
 let relativesSlider = document.querySelector('#relatives');
+const aRelativesNumber = document.querySelector('#aRelativesNumber');
 let petsSlider = document.querySelector('#pets');
+const aPetsNumber = document.querySelector('#aPetsNumber');
 let romPartnerSlider = document.querySelector('#romPartner');
+const romanticPartnerNumber = document.querySelector('#romanticPartnerNumber');
 let childrenSlider = document.querySelector('#children');
+const childrenNumber = document.querySelector('#childrenNumber');
 let roommatesSlider = document.querySelector('#roommates');
+const roommatesNumber = document.querySelector('#roommatesNumber');
 //lived with pets only
 let petsAloneSlider = document.querySelector('#petsAlone');
+const soloPetsText = document.querySelector('#soloPetsText');
 //isolation
 let isolationSlider = document.querySelector('#isolationSlider');
+const socCircleText = document.querySelector('#socCircleText');
 //lived with others underAge
 let parentsUASlider = document.querySelector('#parentsUA');
+const uaParentsNumber = document.querySelector('#uaParentsNumber');
 let siblingsUASlider = document.querySelector('#siblingsUA');
+const uaSiblingsNumber = document.querySelector('#uaSiblingsNumber');
 let relativesUASlider = document.querySelector('#relativesUA');
+const uaRelativesNumber = document.querySelector('#uaRelativesNumber');
 let petsUASlider = document.querySelector('#petsUA');
+const uaPetsNumber = document.querySelector('#uaPetsNumber');
 ////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////Event Listeners///////////////////////////////////////
@@ -111,55 +136,67 @@ ageSlider.addEventListener("mouseup", setAge);
 //student buttons
 studentYBtn.addEventListener("click", function(){
     studentStatus = true;
+    studentText.innerHTML = "During Covid I was a student";
     console.log(studentStatus);
 });
 studentNBtn.addEventListener("click", function(){
     studentStatus = false;
+    studentText.innerHTML = "During Covid I wasn't a student";
     console.log(studentStatus);
 });
 //job before pandemic buttons
 prePandJobN.addEventListener("click", function (){
     prePandJob = false;
+    prePandJobText.innerHTML = "I didn't have a job before the pandemic";
     console.log(prePandJob);
 });
 prePandJobY.addEventListener("click", function (){
     prePandJob = true;
+    prePandJobText.innerHTML = "When the pandemic started I had a job";
     console.log(prePandJob);
 });
 //essential worker buttons 
 essWorkerN.addEventListener("click", function(){
     essentialWorker= false;
+    essWorkerText.innerHTML = "I wasn't an essential worker";
     console.log(essentialWorker);
 });
 essWorkerY.addEventListener("click", function(){
     essentialWorker= true;
+    essWorkerText.innerHTML = "I was an essential worker";
     console.log(essentialWorker);
 });
 //lost Job due to Pandemic buttons
 lostJobN.addEventListener("click", function(){
-    lostJob= false;
+    lostJob = false;
+    lostJobText = "When the pandemic started I kept my job";
     console.log(lostJob);
 });
 lostJobY.addEventListener("click", function(){
     lostJob= true;
+    lostJobText = "I lost my job because of the pandemic";
     console.log(lostJob);
 });
 //retired buttons
 retiredN.addEventListener("click", function(){
     retired= false;
+    retiredText = "I didn't retire during the pandemic";
     console.log(retired);
 });
 retiredY.addEventListener("click", function(){
     retired= true;
+    retiredText = "I have retired during the pandemic";
     console.log(retired);
 });
 //found another job buttons
 foundNewJobN.addEventListener("click", function(){
     foundNewJob= -1;
+    foundNewJobText = "I wasn't able to find another job";
     console.log(foundNewJob);
 });
 foundNewJobY.addEventListener("click", function(){
     foundNewJob= 1;
+    foundNewJobText = "I was able to find another job";
     console.log(foundNewJob);
 });
 //social circle slider
@@ -210,6 +247,25 @@ petsUASlider.addEventListener("mouseup", setPets);
 isolationSlider.addEventListener("touchend", setIsolation);
 //desktop version
 isolationSlider.addEventListener("mouseup", setIsolation);
+
+//radio buttons event listeners
+remoteClasses.forEach(element => {
+    element.addEventListener("click", setRemoteClasses);
+
+});
+
+studentIntExtRadio.forEach(element => {
+    element.addEventListener("click", setIntrovertStatusStudent);
+
+});
+
+radioIntExt.forEach(element => {
+    element.addEventListener("click", setIntrovertStatus);
+});
+
+wfhRadio.forEach(element => {
+    element.addEventListener("click", setWFHStatus);
+});
 ////////////////////////////////////////////////////////////////////////
 
 //variables for page flipping behavior
@@ -411,12 +467,12 @@ function decideContent(){
             }
             break;
         case 5:
-            setIntrovertStatusStudent();
+            // setIntrovertStatusStudent();
             contentIndex = 6;
             surveyState = 6;
             break;
         case 6:
-            setRemoteClasses();
+            // setRemoteClasses();
             contentIndex = 8;
             surveyState = 7;
             break;
@@ -457,7 +513,7 @@ function decideContent(){
             }
             break;
         case 14:
-            setWFHStatus();
+            // setWFHStatus();
             if(ageNumber<18){
                 contentIndex = 14;
                 surveyState = 26;
@@ -476,17 +532,17 @@ function decideContent(){
             }
             break;
         case 16:
-            setIntrovertStatus();
+            // setIntrovertStatus();
             contentIndex = 4;
             surveyState = 19;
             break;
         case 17:
-            setIntrovertStatus();
+            // setIntrovertStatus();
             contentIndex = 8;
             surveyState = 21;
             break;
         case 18:
-            setIntrovertStatus();
+            // setIntrovertStatus();
             contentIndex = 11;
             surveyState = 25;
             break;
@@ -766,39 +822,73 @@ function addPaper(){
 
 function setUserName(){
     userName = nameBox.value;
+    ageOutput.innerHTML = `Right I'm ${userName} and I'm _ years old!`
 }
 
 function setAge(){
     ageNumber = ageSlider.value;
     ageOutput.innerHTML = `Right I'm ${userName} and I'm ${ageNumber} years old`;
     if(ageNumber< 13){
-        ageImage.src = "assets/images/Age-A-PH.png"
+        ageBracket = "A";
+        // ageImage.src = "assets/images/Age-A-PH.png"
     }else if (ageNumber < 18){
-        ageImage.src = "assets/images/Age-B-PH.png"
+        ageBracket = "B";
+        // ageImage.src = "assets/images/Age-B-PH.png"
     }else if (ageNumber < 28){
-        ageImage.src = "assets/images/Age-C-PH.png"
+        ageBracket = "C";
+        // ageImage.src = "assets/images/Age-C-PH.png"
     }else if (ageNumber < 60){
-        ageImage.src = "assets/images/Age-D-PH.png"
+        ageBracket = "D";
+        // ageImage.src = "assets/images/Age-D-PH.png"
     }else if (ageNumber >= 60){
-        ageImage.src = "assets/images/Age-E-PH.png"
+        ageBracket = "E";
+        // ageImage.src = "assets/images/Age-E-PH.png"
     }
+    ageImage.src =`assets/images/age-${ageBracket}-${imageMod}.png`;
 }
 
 
 function setParents(){
     if(ageNumber< 18){
         parents = parentsUASlider.value;
+        if(parents>1){
+            uaParentsNumber.innerHTML = "both parents";
+        }else if(parents == 1){
+            uaParentsNumber.innerHTML = "a single parent";
+        }else{
+            uaParentsNumber.innerHTML = "no parents";
+        }
     }else{
         parents = parentsSlider.value;
+        if(parents>1){
+            aParentsNumber.innerHTML = "both parents";
+        }else if(parents == 1){
+            aParentsNumber.innerHTML = "a single parent";
+        }else{
+            aParentsNumber.innerHTML = "no parents";
+        }
     }
-    console.log(parents);
 }
  
 function setSiblings(){
     if(ageNumber< 18){
         siblings = siblingsUASlider.value;
+        if(siblings>1){
+            uaSiblingsNumber.innerHTML = `${siblings} siblings`;
+        }else if(siblings == 1){
+            uaSiblingsNumber.innerHTML = "a sibling";
+        }else{
+            uaSiblingsNumber.innerHTML = "no siblings";
+        }
     }else{
         siblings = siblingsSlider.value;
+        if(siblings>1){
+            aSiblingsNumber.innerHTML = `${siblings} siblings`;
+        }else if(siblings == 1){
+            aSiblingsNumber.innerHTML = "a sibling";
+        }else{
+            aSiblingsNumber.innerHTML = "no siblings";
+        }
     }
     console.log(siblings);
 }
@@ -806,8 +896,22 @@ function setSiblings(){
 function setRelatives(){
     if(ageNumber< 18){
         relatives = relativesUASlider.value;
+        if(relatives>1){
+            uaRelativesNumber.innerHTML = `${relatives} relatives`;
+        }else if(relatives == 1){
+            uaRelativesNumber.innerHTML = "a relative";
+        }else{
+            uaRelativesNumber.innerHTML = "no relatives";
+        }
     }else{
         relatives = relativesSlider.value;
+        if(relatives>1){
+            aRelativesNumber.innerHTML = `${relatives} relatives`;
+        }else if(relatives == 1){
+            aRelativesNumber.innerHTML = "a relative";
+        }else{
+            aRelativesNumber.innerHTML = "no relatives";
+        }
     }
     console.log(relatives);
 }
@@ -815,26 +919,66 @@ function setRelatives(){
 function setPets(){
     if(ageNumber< 18){
         pets = petsUASlider.value;
+        if(pets > 1){
+            uaPetsNumber.innerHTML = `${pets} pets`;
+        }else if(pets == 1){
+            uaPetsNumber.innerHTML = "a pet";
+        }else{
+            uaPetsNumber.innerHTML = "no pets";
+        }
     }else if(livedAlone){
         pets = petsAloneSlider.value;
+        if(pets > 1){
+            soloPetsText.innerHTML = `I have ${pets} pets`;
+        }else if(pets == 1){
+            soloPetsText.innerHTML = "I have a pet";
+        }else{
+            soloPetsText.innerHTML = "I have no pets";
+        }
     }else{
         pets = petsSlider.value;
+        if(pets > 1){
+            aPetsNumber.innerHTML = `${pets} pets`;
+        }else if(pets == 1){
+            aPetsNumber.innerHTML = "a pet";
+        }else{
+            aPetsNumber.innerHTML = "no pets";
+        }
     }
     console.log(pets);
 }
  
 function setRomPartner(){
     romanticPartner = romPartnerSlider.value;
+    if(romanticPartner == 1){
+        romanticPartnerNumber.innerHTML = "a romantic partner";
+    }else{
+        romanticPartnerNumber.innerHTML = "no romantic partners";
+    }
     console.log(romanticPartner);
 }
 
 function setChildren(){
     children = childrenSlider.value;
+    if(children>1){
+        childrenNumber.innerHTML = `${children} children`;
+    }else if(children == 1){
+        childrenNumber.innerHTML = "a child"
+    }else{
+        childrenNumber.innerHTML = "no children"
+    }
     console.log(children);
 }
  
 function setRoommates(){
     roommates = roommatesSlider.value;
+    if(roommates>1){
+        roommatesNumber.innerHTML = `${roommates} roommates`;
+    }else if(roommates == 1){
+        roommatesNumber.innerHTML = "a roommate"
+    }else{
+        roommatesNumber.innerHTML = "no roommates"
+    }
     console.log(roommates);
 }
 
@@ -853,8 +997,10 @@ function setIntrovertStatusStudent(){
         if (radioButton.checked){
             if(radioButton.value === "true"){
                 introvert = true;
+                introStudentText.innerHTML = "During lunch at school you'd likely find me reading alone";
             }else{
                 introvert = false;
+                introStudentText.innerHTML = "During lunch at school you'd likely find me hanging out with friends";
             }
         }
     }
@@ -866,8 +1012,10 @@ function setIntrovertStatus(){
         if (radioButton.checked){
             if(radioButton.value === "true"){
                 introvert = true;
+                introAdultText.innerHTML = "At a party you'd likely find me standing in a corner";
             }else{
                 introvert = false;
+                introAdultText.innerHTML = "At a party you'd likely find me dancing/drinking with others";
             }
         }
     }
@@ -878,7 +1026,13 @@ function setWFHStatus(){
     for (const radioButton of wfhRadio){
         if (radioButton.checked){
             workingFromHome = parseInt(radioButton.value);
+            if(workingFromHome === 1){
+                wfhText.innerHTML = "Due to the pandemic I had to work from home";
+            }else if (workingFromHome === -1){
+                wfhText.innerHTML = "During the pandemic I had to work in person";
+            }
         }
+
     }
     console.log(workingFromHome);
 }
@@ -887,7 +1041,13 @@ function setRemoteClasses(){
     for (const radioButton of remoteClasses){
         if (radioButton.checked){
             remoteClassesStat = parseInt(radioButton.value);
+            if(remoteClassesStat === 1){
+                remoteClassesText.innerHTML = "Due to the pandemic I had to attend my classes remotely";
+            }else if (remoteClassesStat === -1){
+                remoteClassesText.innerHTML = "During the pandemic I had to attend my classes in person";
+            }
         }
+
     }
     console.log(remoteClassesStat);
 }
