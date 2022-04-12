@@ -1127,10 +1127,13 @@ function endSurvey(){
     let results = document.createElement('h1');
     let resultNumber = document.createElement('h3');
     let resultOutcome = document.createElement('p');
+    let mentalHealthRessources = document.createElement('p');
     results.classList.add('resultTitle');
     results.innerHTML = `Your result is `;
     resultNumber.innerHTML = `${riskIndex}`;
     resultOutcome.classList.add('resultOutcome');
+    mentalHealthRessources.classList.add('resultOutcome');
+    mentalHealthRessources.id = "mentalHealthRessources";
     if(riskIndex>4){
         resultOutcome.innerHTML = "You're definitely isolated, or at least you feel that way. While it is hard to even know where to start from a situation that seems as bleak as you feel about yours, it's never too late to start trying to reintegrate people into your life. Start with small steps like greeting a cashier or a waiter at a restaurant, reach out to friends or relatives you haven't spoken to in a while. If you're completely unable to take those first steps seek professional help. Whether or not you think you're comfortable in your solitude, humans need social interaction to thrive so don't deny yourself the opportunity to experience the joy that is human company.";
     }else if(riskIndex>1){
@@ -1140,9 +1143,11 @@ function endSurvey(){
     }else if(riskIndex<-4){
         resultOutcome.innerHTML = "You were not impacted too hard by the pandemic in terms of social interaction. You might have lost some opportunities of interacting with others, but you were still able to get the plenty of social interaction from your social circle. If you're not already, try to help others who are less adept at seeking people out by sharing some of your sociability with them.";
     }
+    mentalHealthRessources.innerHTML = `A collection of mental health ressources available in Canada as well as Canadian mental health organizations can be found <a href="https://www.ccmhs-ccsms.ca/mental-health-resources-1" target="_blank">here</a>`;
     contentArray[21].appendChild(results);
     contentArray[21].appendChild(resultNumber);
     contentArray[21].appendChild(resultOutcome);
+    contentArray[21].appendChild(mentalHealthRessources);
     contentArray[21].appendChild(nextPageButtonBox);
     nextPageButtonBox.classList.remove('hid');
     nextPageButtonBox.classList.remove('fixed-Bottom');

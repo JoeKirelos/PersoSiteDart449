@@ -315,9 +315,6 @@ input[type=radio] {
    color: #000; 
    text-decoration: none;
 }
-#nextPage a:hover{
-   color: #000;
-}
 #nextPage a:visited{
    color: #000;
 }
@@ -327,6 +324,23 @@ input[type=radio] {
    font-size: 14px;
    margin-bottom: 5%;
    line-height: 12px;
+}
+
+#mentalHealthRessources{
+   font-weight: 600;
+   color: #000;
+}
+
+#mentalHealthRessources:visited{
+   color: #000;
+}
+.resultOutcome a{
+   font-weight: 600;
+   color: #000;
+}
+
+.resultOutcome a:visited{
+   color: #000;
 }
 
 .navBar{
